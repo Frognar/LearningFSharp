@@ -19,3 +19,7 @@ let ``Add should correctly sum two numbers`` a b expected =
 [<InlineData(5, 5)>]
 let ``Fib n should return n-th Fibonacci number`` (n : int) expected =
     Assert.Equal(expected, fib n)
+
+[<Fact>]
+let ``Fib n should return None when n is < 0`` () =
+    Assert.Equal(None, fib -1)
