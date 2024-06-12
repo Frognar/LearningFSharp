@@ -17,6 +17,7 @@ let ``Add should correctly sum two numbers`` a b expected =
 [<InlineData(3, 2)>]
 [<InlineData(4, 3)>]
 [<InlineData(5, 5)>]
+[<InlineData(46, 1836311903)>]
 let ``Fib n should return n-th Fibonacci number`` (n : int) expected =
     Assert.Equal(expected, fib n)
 
