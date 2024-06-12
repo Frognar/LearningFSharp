@@ -3,9 +3,13 @@
 module Calculator =
     let add a b = a + b
 
-    let rec fib n =
+    let fib n =
+        let rec loop acc1 acc2 n =
+            match n with
+            | 0 -> acc1
+            | 1 -> acc2
+            | _ -> loop acc2 (acc1 + acc2) (n - 1)
+
         match n with
         | v when v < 0 -> None
-        | 0 -> Some(0)
-        | 1 -> Some(1)
-        | _ -> ((fib (n - 1)), (fib (n - 2))) ||> Option.map2 (fun x y -> x + y) 
+        | _ -> Some(loop 0 1 n) 
