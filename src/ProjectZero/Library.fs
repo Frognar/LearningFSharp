@@ -5,4 +5,4 @@ module Calculator =
         a + b
         
     let fib n =
-        n
+        if n < 2 then n else 1
