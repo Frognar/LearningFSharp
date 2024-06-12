@@ -1,8 +1,13 @@
 module Tests
 
-open System
+open ProjectZero.Calculator
 open Xunit
 
 [<Fact>]
-let ``My test`` () =
-    Assert.True(true)
+let ``Add should correctly sum two numbers`` () =
+    let a = 5
+    let b = 3
+    
+    let result = add a b
+    
+    Assert.Equal(5 + 3, result)
