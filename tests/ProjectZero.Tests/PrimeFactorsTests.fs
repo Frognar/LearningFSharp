@@ -64,3 +64,7 @@ let ``intPow a b should be a^b`` (a: int) b expected =
 [<Fact>]
 let ``Factors of 2^31 - 1 should be [ 2^31 - 1 ]`` () =
     Assert.Equivalent([ (intPow 2 31) - 1 ], factorsOf ((intPow 2 31) - 1), true)
+
+[<Fact>]
+let ``primesUpTo`` () =
+    Assert.Equivalent([], primesUpTo 1, true)
