@@ -1,5 +1,10 @@
 module ProjectZero.PrimeFactors
 
+let removeMultipliesOfFirst list =
+    match list with
+    | first :: rest -> List.filter ((fun n x -> x % n <> 0) first) rest
+    | _ -> list
+
 let primesUpTo (n: int) : List<int> =
     let rec loop candidate primes =
         if candidate <= n
