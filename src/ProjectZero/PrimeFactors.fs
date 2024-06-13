@@ -1,4 +1,4 @@
 module ProjectZero.PrimeFactors
    
 let factorsOf (n : int) : List<int> =
-    if n > 1 then [2] else []
+    if n > 1 then [n] else []
