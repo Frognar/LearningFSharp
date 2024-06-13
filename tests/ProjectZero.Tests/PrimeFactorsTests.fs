@@ -76,6 +76,14 @@ let ``primesUpTo 2 should be [ 2 ]`` () =
 [<Fact>]
 let ``primesUpTo 3 should be [ 2; 3 ]`` () =
     Assert.Equivalent([ 2; 3 ], primesUpTo 3, true)
+    
+[<Fact>]
+let ``primesUpTo 4 should be [ 2; 3 ]`` () =
+    Assert.Equivalent([ 2; 3 ], primesUpTo 4, true)
+    
+[<Fact>]
+let ``primesUpTo 100 should be [ 2; 3; 5; 7; 11; 13; 17; 19; 23; 29; 31; 37; 41; 43; 47; 53; 59; 61; 67; 71; 73; 79; 83; 89; 97 ]`` () =
+    Assert.Equivalent([ 2; 3; 5; 7; 11; 13; 17; 19; 23; 29; 31; 37; 41; 43; 47; 53; 59; 61; 67; 71; 73; 79; 83; 89; 97 ], primesUpTo 100, true)
 
 [<Fact>]
 let ``removeMultipliesOfFirst for [ 2; 3; 4; 5; 6; 7; 8; 9 ] should return [ 3; 5; 7; 9 ]`` () =
