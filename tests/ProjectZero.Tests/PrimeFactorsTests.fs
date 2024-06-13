@@ -8,10 +8,13 @@ let ``Factors of 1 should be []`` () =
     Assert.Equivalent([], factorsOf 1)
 
 [<Fact>]
-let ``Factors of 2 should be [2]`` () =
-    Assert.Equivalent([2], factorsOf 2)
+let ``Factors of 2 should be [ 2 ]`` () =
+    Assert.Equivalent([ 2 ], factorsOf 2)
 
 [<Fact>]
-let ``Factors of 3 should be [3]`` () =
-    Assert.Equivalent([3], factorsOf 3)
+let ``Factors of 3 should be [ 3 ]`` () =
+    Assert.Equivalent([ 3 ], factorsOf 3)
 
+[<Fact>]
+let ``Factors of 4 should be [ 2; 2 ]`` () =
+    Assert.Equivalent([ 2; 2 ], factorsOf 4)
