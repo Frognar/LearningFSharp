@@ -11,14 +11,14 @@ let primesUpTo (n: int) : List<int> =
     let rec loop candidates primes =
         if List.isEmpty candidates
         then primes
-        else loop (removeMultipliesOfFirst candidates) (List.concat [ primes; [List.head candidates] ])
+        else loop (removeMultipliesOfFirst candidates) ((List.head candidates) :: primes)
     loop [2..n] []
 
 let factorsOf (n: int) : List<int> =
     let rec loop n div res =
         if n > 1 then (
             if n % div = 0
-            then loop (n / div) div (List.concat [ [ div ]; res ])
+            then loop (n / div) div (div :: res)
             else loop n (div + 1) res)
         else res
     loop n 2 []
