@@ -6,11 +6,13 @@ let removeMultipliesOfFirst list =
     | _ -> list
 
 let primesUpTo (n: int) : List<int> =
-    let rec loop candidate primes =
-        if candidate <= n
-        then loop (candidate + 1) (List.concat [ primes; [candidate] ])
-        else primes
-    loop 2 []
+    if n < 2 then []
+    else
+    let rec loop candidates primes =
+        if List.isEmpty candidates
+        then primes
+        else loop (removeMultipliesOfFirst candidates) (List.concat [ primes; [List.head candidates] ])
+    loop [2..n] []
 
 let factorsOf (n: int) : List<int> =
     let rec loop n div res =
