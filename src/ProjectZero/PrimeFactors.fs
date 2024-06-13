@@ -1,7 +1,7 @@
 module ProjectZero.PrimeFactors
 
 let primesUpTo (n: int) : List<int> =
-    []
+    if n > 1 then [n] else []
 
 let factorsOf (n: int) : List<int> =
     let rec loop n div res =
