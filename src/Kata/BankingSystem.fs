@@ -31,3 +31,11 @@ module Bank =
             Some { account with Balance = account.Balance - amount; History = { Type = Withdrawal; Amount = amount } :: account.History }
         else
             None
+            
+    let checkBalance (account: Account) =
+        account.History
+        |> List.map (fun transaction ->
+                                     match transaction.Type with
+                                     | Withdrawal -> -transaction.Amount
+                                     | Deposit -> transaction.Amount)
+        |> List.sum
