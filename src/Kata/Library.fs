@@ -1,10 +1,10 @@
 ﻿module Kata.PrimeFactors0
 
-let rec factorOf n =
-    let rec factorize x div =
+let factorOf n =
+    let rec factorize x div factors =
         match x with
-        | _ when x < 2 -> []
-        | _ when x % div = 0 -> div :: factorize (x / div) div
-        | _ -> factorize x (div + 1)
+        | _ when x < 2 -> factors |> List.rev
+        | _ when x % div = 0 -> factorize (x / div) div (div :: factors)
+        | _ -> factorize x (div + 1) factors
     
-    factorize n 2
+    factorize n 2 []
