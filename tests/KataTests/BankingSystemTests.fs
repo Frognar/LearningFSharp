@@ -22,3 +22,9 @@ let ``Withdrawal should be removed from account balance`` () =
     match accountAfterWithdrawal with
     | Some account -> Assert.Equal(900, account.Balance)
     | _ -> Assert.Fail()
+
+[<Fact>]
+let ``Withdrawal should not be allowed when the balance int the account is less`` () =
+    let account = Bank.createAccount "uniqueId" 10
+    let accountAfterWithdrawal = Bank.withdrawal account 100
+    Assert.Equal(None, accountAfterWithdrawal)
