@@ -1,7 +1,5 @@
 namespace Kata.BankingSystem
 
-open System.Reflection
-
 module Bank =
     type TransactionType =
             | Deposit
@@ -16,21 +14,12 @@ module Bank =
     type Account =
         {
             Number: string
-            Balance: int
             History: List<Transaction>
         }
 
     let createAccount accountNumber initialBalance =
-        { Number = accountNumber; Balance = initialBalance; History = [ { Type = Deposit; Amount = initialBalance } ] }
-
-    let deposit account amount =
-        { account with Balance = account.Balance + amount; History = { Type = Deposit; Amount = amount } :: account.History }
+        { Number = accountNumber; History = [ { Type = Deposit; Amount = initialBalance } ] }
         
-    let withdrawal account amount =
-        if account.Balance > amount then
-            Some { account with Balance = account.Balance - amount; History = { Type = Withdrawal; Amount = amount } :: account.History }
-        else
-            None
             
     let checkBalance (account: Account) =
         account.History
@@ -39,3 +28,12 @@ module Bank =
                                      | Withdrawal -> -transaction.Amount
                                      | Deposit -> transaction.Amount)
         |> List.sum
+
+    let deposit account amount =
+        { account with History = { Type = Deposit; Amount = amount } :: account.History }
+        
+    let withdrawal account amount =
+        if checkBalance account > amount then
+            Some { account with History = { Type = Withdrawal; Amount = amount } :: account.History }
+        else
+            None
