@@ -1,7 +1,6 @@
 ﻿module Kata.PrimeFactors0
 
 let factorOf n =
-    if n > 1 then
-        [ 2 ]
-    else
-        []
+    match n with
+    | _ when n < 2 -> []
+    | _ -> [ 2 ]
