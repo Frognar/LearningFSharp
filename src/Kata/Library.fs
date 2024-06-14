@@ -1,6 +1,6 @@
 ﻿module Kata.PrimeFactors0
 
-let factorOf n =
+let factorsOf n =
     let rec factorize x div factors =
         match x with
         | _ when x < 2 -> factors |> List.rev
