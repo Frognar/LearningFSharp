@@ -1,5 +1,7 @@
 namespace Kata.BankingSystem
 
+open System.Reflection
+
 module Bank =
     type TransactionType =
             | Deposit
@@ -23,3 +25,6 @@ module Bank =
 
     let deposit account amount =
         { account with Balance = account.Balance + amount; History = { Type = Deposit; Amount = amount } :: account.History }
+        
+    let withdrawal account amount =
+        { account with Balance = account.Balance - amount; History = { Type = Withdrawal; Amount = amount } :: account.History }
