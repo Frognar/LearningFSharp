@@ -1,5 +1,4 @@
-﻿namespace Kata
+﻿module Kata.PrimeFactors0
 
-module Say =
-    let hello name =
-        printfn "Hello %s" name
+let factorOf n =
+    []

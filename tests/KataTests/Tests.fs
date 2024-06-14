@@ -1,8 +1,8 @@
 module Tests
 
-open System
+open Kata.PrimeFactors0
 open Xunit
 
 [<Fact>]
-let ``My test`` () =
-    Assert.True(true)
+let ``Factors of 1 should be []`` () =
+    Assert.StrictEqual([], factorOf 1)
