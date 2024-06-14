@@ -1,8 +1,10 @@
 ﻿module Kata.PrimeFactors0
 
 let rec factorOf n =
-    match n with
-    | _ when n < 2 -> []
-    | _ when n % 2 = 0 -> 2 :: factorOf (n / 2)
-    | _ when n % 3 = 0 -> 3 :: factorOf (n / 3)
-    | _ -> [ n ]
+    let rec factorize x div =
+        match x with
+        | _ when x < 2 -> []
+        | _ when x % div = 0 -> div :: factorize (x / div) div
+        | _ -> factorize x (div + 1)
+    
+    factorize n 2
