@@ -27,4 +27,5 @@ module Bank =
         { account with Balance = account.Balance + amount; History = { Type = Deposit; Amount = amount } :: account.History }
         
     let withdrawal account amount =
-        { account with Balance = account.Balance - amount; History = { Type = Withdrawal; Amount = amount } :: account.History }
+        Some { account with Balance = account.Balance - amount; History = { Type = Withdrawal; Amount = amount } :: account.History }
+        

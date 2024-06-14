@@ -19,4 +19,6 @@ let ``Deposit should be added to account balance`` () =
 let ``Withdrawal should be removed from account balance`` () =
     let account = Bank.createAccount "uniqueId" 1000
     let accountAfterWithdrawal = Bank.withdrawal account 100
-    Assert.Equal(900, accountAfterWithdrawal.Balance)
+    match accountAfterWithdrawal with
+    | Some account -> Assert.Equal(900, account.Balance)
+    | _ -> Assert.Fail()
