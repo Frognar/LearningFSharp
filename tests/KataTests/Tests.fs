@@ -34,3 +34,7 @@ let ``Factors of 7 should be [ 7 ]`` () =
 [<Fact>]
 let ``Factors of 8 should be [ 2; 2; 2 ]`` () =
     Assert.StrictEqual([ 2; 2; 2 ], factorOf 8)
+
+[<Fact>]
+let ``Factors of 9 should be [ 3; 3 ]`` () =
+    Assert.StrictEqual([ 3; 3 ], factorOf 9)
