@@ -12,6 +12,7 @@
         <Compile Include="Tests.fs"/>
         <Compile Include="BankingSystemTests.fs" />
         <Compile Include="PrimeFactors1Tests.fs" />
+        <Compile Include="PrimeTests.fs" />
         <Compile Include="Program.fs"/>
     </ItemGroup>
 
