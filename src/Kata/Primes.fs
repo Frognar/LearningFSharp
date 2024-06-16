@@ -6,8 +6,8 @@ let removeDuplicatesOfFirst list =
     | _ -> []
 
 let primesUpTo n =
-    let rec loop x primes =
-        match x with
-        | _ when x < 2  -> primes
-        | _ -> loop (x - 1) (x :: primes)
-    loop n []
+    let rec loop candidates primes =
+        match candidates with
+        | first :: _ -> loop (removeDuplicatesOfFirst candidates) (first :: primes)
+        | _ -> primes |> List.rev
+    loop [2..n] []
