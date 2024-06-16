@@ -1,4 +1,8 @@
 module Kata.Primes
 
 let primesUpTo n =
-    if n < 2 then [] else [ 2 ]
+    let rec loop x primes =
+        match x with
+        | _ when x < 2 -> primes
+        | _ -> loop (x - 1) (x :: primes)
+    loop n []
