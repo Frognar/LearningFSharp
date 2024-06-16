@@ -1,7 +1,9 @@
 module Kata.Primes
 
 let removeDuplicatesOfFirst list =
-    List.tail list
+    match list with
+    | first :: tail -> tail |> List.filter (fun x -> (x % first) <> 0)
+    | _ -> []
 
 let primesUpTo n =
     let rec loop x primes =
