@@ -22,3 +22,7 @@ let ``Primes up to 3 should be [ 2; 3 ]`` () =
 [<Fact>]
 let ``Remove duplicates of first [ 2 ] should be []`` () =
     Assert.StrictEqual([], removeDuplicatesOfFirst [ 2 ])
+
+[<Fact>]
+let ``Remove duplicates of first [ 2; 3 ] should be [ 3 ]`` () =
+    Assert.StrictEqual([ 3 ], removeDuplicatesOfFirst [ 2; 3 ])

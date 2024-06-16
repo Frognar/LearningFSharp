@@ -1,7 +1,7 @@
 module Kata.Primes
 
 let removeDuplicatesOfFirst list =
-    []
+    List.tail list
 
 let primesUpTo n =
     let rec loop x primes =
