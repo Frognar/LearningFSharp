@@ -30,3 +30,7 @@ let ``Remove duplicates of first [ 2; 3 ] should be [ 3 ]`` () =
 [<Fact>]
 let ``Remove duplicates of first [ 2; 3; 4 ] should be [ 3 ]`` () =
     Assert.StrictEqual([ 3 ], removeDuplicatesOfFirst [ 2; 3; 4 ])
+
+[<Fact>]
+let ``Remove duplicates of first [ 3; 5; 7; 9; 11 ] should be [ 5; 7; 11 ]`` () =
+    Assert.StrictEqual([ 5; 7; 11 ], removeDuplicatesOfFirst [ 3; 5; 7; 9; 11 ])
