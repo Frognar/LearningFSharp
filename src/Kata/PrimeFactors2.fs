@@ -1,0 +1,2 @@
+module Kata.PrimeFactors2
+

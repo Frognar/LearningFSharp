@@ -10,6 +10,7 @@
         <Compile Include="BankingSystem.fs" />
         <Compile Include="PrimeFactors1.fs" />
         <Compile Include="Primes.fs" />
+        <Compile Include="PrimeFactors2.fs" />
     </ItemGroup>
 
 </Project>
