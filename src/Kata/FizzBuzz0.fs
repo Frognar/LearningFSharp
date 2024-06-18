@@ -16,3 +16,5 @@ let render n =
     | MultOf3 -> "Fizz"
     | MultOf5 -> "Buzz"
     | _ -> string n
+    
+let fizzBuzz n = [1..n] |> List.map render
