@@ -7,8 +7,9 @@ let (|FirstTwoEquals|_|) (s: string) =
 let (|SingleChar|_|) s = if String.length s = 1 then Some() else None    
 
 let lookAndSay n =
-    if String.length n = 1 then "1" + n
-    else
+    match n with
+    | SingleChar -> "1" + n
+    | _ ->
         let rec loop result count (input: string) =
             match input with
             | SingleChar -> result + (string count + input)
