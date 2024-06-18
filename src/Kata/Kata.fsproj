@@ -11,6 +11,7 @@
         <Compile Include="PrimeFactors1.fs" />
         <Compile Include="Primes.fs" />
         <Compile Include="PrimeFactors2.fs" />
+        <Compile Include="FizzBuzz0.fs" />
     </ItemGroup>
 
 </Project>
