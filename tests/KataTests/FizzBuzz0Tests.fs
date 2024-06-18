@@ -10,3 +10,7 @@ let ``Render 1 should be "1"`` () =
 [<Fact>]
 let ``Render 2 should be "2"`` () =
     Assert.Equal("2", render 2)
+
+[<Fact>]
+let ``Render 3 should be "Fizz"`` () =
+    Assert.Equal("Fizz", render 3)
