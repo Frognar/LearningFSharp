@@ -1,4 +1,4 @@
 module Kata.LookAndSay
 
 let lookAndSay n =
-    "11"
+    (string 1) + n
