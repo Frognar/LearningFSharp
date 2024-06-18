@@ -12,6 +12,7 @@
         <Compile Include="Primes.fs" />
         <Compile Include="PrimeFactors2.fs" />
         <Compile Include="FizzBuzz0.fs" />
+        <Compile Include="LookAndSay.fs" />
     </ItemGroup>
 
 </Project>
