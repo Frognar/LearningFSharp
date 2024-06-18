@@ -2,12 +2,15 @@ module Kata.LookAndSay
 
 let lookAndSay n =
     if String.length n > 1 then
-        let rec loop index count (input: string) =
-            if input[index] = input[index + 1] then
-                string (count + 1) + string (input[index + 1])
+        let rec loop result count (input: string) =
+            if String.length input > 1 then
+                if input[0] = input[1] then
+                    loop result (count + 1) input[1..]
+                else
+                    loop (result + (string count + string input[0])) 1 input[1..]
             else
-                string count + string (input[index]) + string count + string (input[index + 1])
+                result + (string count + input)
                 
-        loop 0 1 n
+        loop "" 1 n
     else
         "1" + n
