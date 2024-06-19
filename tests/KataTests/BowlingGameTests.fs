@@ -15,6 +15,11 @@ let ``score 20 for all ones`` () =
 let ``score spare`` () =
     Assert.Equal(18, score (List.concat [[5; 5; 4 ]; 0 |> List.replicate 17] ))
 
+
+[<Fact>]
+let ``score strike`` () =
+    Assert.Equal(18, score (List.concat [[10; 2; 2 ]; 0 |> List.replicate 17] ))
+
 [<Fact>]
 let ``partition open frames`` () =
     Assert.StrictEqual([ [ 1; 2 ]; [ 3; 4 ] ], splitFrames [ 1; 2; 3; 4 ])
