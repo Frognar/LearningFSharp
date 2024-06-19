@@ -8,6 +8,7 @@ let (|IsSpare|_|) rolls =
 let splitFrames rolls =
     let rec loop result list =
         match list with
+        | first::rest when first = 10 -> loop (List.take 3 list :: result) rest
         | IsSpare (frame, rest) -> loop (frame :: result) rest
         | first::second::rest -> loop ([ first; second ] :: result) rest
         | _ -> result |> List.rev

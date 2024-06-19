@@ -22,3 +22,7 @@ let ``partition open frames`` () =
 [<Fact>]
 let ``partition spare frames`` () =
     Assert.StrictEqual([ [ 5; 5; 4 ]; [ 4; 0 ] ], splitFrames [ 5; 5; 4; 0 ])
+
+[<Fact>]
+let ``partition strike frames`` () =
+    Assert.StrictEqual([ [ 10; 5; 4 ]; [ 5; 4 ] ], splitFrames [ 10; 5; 4 ])
