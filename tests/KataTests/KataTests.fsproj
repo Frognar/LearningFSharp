@@ -16,6 +16,7 @@
         <Compile Include="PrimeFactors2Tests.fs" />
         <Compile Include="FizzBuzz0Tests.fs" />
         <Compile Include="LookAndSayTests.fs" />
+        <Compile Include="BowlingGameTests.fs" />
         <Compile Include="Program.fs"/>
     </ItemGroup>
 

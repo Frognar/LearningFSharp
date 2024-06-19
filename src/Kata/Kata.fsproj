@@ -13,6 +13,7 @@
         <Compile Include="PrimeFactors2.fs" />
         <Compile Include="FizzBuzz0.fs" />
         <Compile Include="LookAndSay.fs" />
+        <Compile Include="BowlingGame.fs" />
     </ItemGroup>
 
 </Project>
