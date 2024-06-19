@@ -1,9 +1,11 @@
 module Kata.BowlingGame
 
-let rec splitFrames rolls =
-    match rolls with
-    | first::second::rest -> [ first; second ] :: splitFrames rest
-    | _ -> []
+let splitFrames rolls =
+    let rec loop result list =
+        match list with
+        | first::second::rest -> loop ([ first; second ] :: result) rest
+        | _ -> result |> List.rev
+    loop [] rolls
 
 let score (rolls: List<int>) =
     rolls |> List.sum
