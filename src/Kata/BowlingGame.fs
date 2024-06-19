@@ -7,6 +7,7 @@ let (|IsSpare|_|) rolls =
 
 let (|IsStrike|_|) rolls =
     match rolls with
+    | _ when List.length rolls < 3 -> None
     | first :: rest when first = 10 -> Some (List.take 3 rolls, rest)
     | _ -> None
 
@@ -20,4 +21,4 @@ let splitFrames rolls =
     loop [] rolls
 
 let score (rolls: List<int>) =
-    rolls |> splitFrames |> List.sumBy List.sum
+    rolls |> splitFrames |> List.take 10 |> List.sumBy List.sum

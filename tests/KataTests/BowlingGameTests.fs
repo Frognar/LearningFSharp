@@ -21,6 +21,10 @@ let ``score strike`` () =
     Assert.Equal(18, score (List.concat [[10; 2; 2 ]; 0 |> List.replicate 17] ))
 
 [<Fact>]
+let ``score perfect game`` () =
+    Assert.Equal(300, score (10 |> List.replicate 12))
+
+[<Fact>]
 let ``partition open frames`` () =
     Assert.StrictEqual([ [ 1; 2 ]; [ 3; 4 ] ], splitFrames [ 1; 2; 3; 4 ])
 
