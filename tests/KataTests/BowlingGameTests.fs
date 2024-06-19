@@ -10,3 +10,11 @@ let ``score 0 for all zeros`` () =
 [<Fact>]
 let ``score 20 for all ones`` () =
     Assert.Equal(20, score (1 |> List.replicate 20) )
+
+//[<Fact>]
+//let ``score spare`` () =
+//    Assert.Equal(18, score (List.concat [[5; 5; 4 ]; 0 |> List.replicate 17] ))
+
+[<Fact>]
+let ``partition open frames`` () =
+    Assert.StrictEqual([[ 1; 2 ]; [ 3; 4 ]], splitFrames [ 1; 2; 3; 4 ])
