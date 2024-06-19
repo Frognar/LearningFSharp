@@ -5,10 +5,15 @@ let (|IsSpare|_|) rolls =
     | first :: second :: rest when first + second = 10 -> Some ([ first; second; rest[0] ], rest)
     | _ -> None
 
+let (|IsStrike|_|) rolls =
+    match rolls with
+    | first :: rest when first = 10 -> Some (List.take 3 rolls, rest)
+    | _ -> None
+
 let splitFrames rolls =
     let rec loop result list =
         match list with
-        | first::rest when first = 10 -> loop (List.take 3 list :: result) rest
+        | IsStrike (frame, rest) -> loop (frame :: result) rest
         | IsSpare (frame, rest) -> loop (frame :: result) rest
         | first::second::rest -> loop ([ first; second ] :: result) rest
         | _ -> result |> List.rev
