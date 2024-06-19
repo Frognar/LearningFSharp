@@ -1,7 +1,9 @@
 module Kata.BowlingGame
 
-let splitFrames rolls =
-    rolls |> List.chunkBySize 2
+let rec splitFrames rolls =
+    match rolls with
+    | first::second::rest -> [ first; second ] :: splitFrames rest
+    | _ -> []
 
 let score (rolls: List<int>) =
     rolls |> List.sum
