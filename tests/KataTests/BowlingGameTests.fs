@@ -17,4 +17,8 @@ let ``score 20 for all ones`` () =
 
 [<Fact>]
 let ``partition open frames`` () =
-    Assert.StrictEqual([[ 1; 2 ]; [ 3; 4 ]], splitFrames [ 1; 2; 3; 4 ])
+    Assert.StrictEqual([ [ 1; 2 ]; [ 3; 4 ] ], splitFrames [ 1; 2; 3; 4 ])
+
+[<Fact>]
+let ``partition spare frames`` () =
+    Assert.StrictEqual([ [ 5; 5; 4 ]; [ 4; 0 ] ], splitFrames [ 5; 5; 4; 0 ])
