@@ -15,3 +15,8 @@ let ``Should be firstname when invert firstname`` () =
 [<Fact>]
 let ``Should be 'last, first' when invert 'first last'`` () =
     Assert.Equal("Lupercal, Horus", invert "Horus Lupercal")
+
+
+[<Fact>]
+let ``Should be 'last, first' when invert 'first    last'`` () =
+    Assert.Equal("Lupercal, Horus", invert "Horus    Lupercal")
