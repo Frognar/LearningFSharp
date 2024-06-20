@@ -11,17 +11,18 @@ let ``Should be empty when invert empty`` () =
 let ``Should be firstname when invert firstname`` () =
     Assert.Equal("Horus", invert "Horus")
 
-
 [<Fact>]
 let ``Should be 'last, first' when invert 'first last'`` () =
     Assert.Equal("Lupercal, Horus", invert "Horus Lupercal")
-
 
 [<Fact>]
 let ``Should be 'last, first' when invert 'first    last'`` () =
     Assert.Equal("Lupercal, Horus", invert "Horus    Lupercal")
 
-
 [<Fact>]
 let ``Should be 'last, first' when invert 'honorific first last'`` () =
     Assert.Equal("Lupercal, Horus", invert "Mr. Horus Lupercal")
+
+[<Fact>]
+let ``Should be 'last, first postnominal' when invert 'first last postnominal'`` () =
+    Assert.Equal("Lupercal, Horus Sr.", invert "Horus Lupercal Sr.")
