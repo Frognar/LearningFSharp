@@ -1,4 +1,10 @@
 module Kata.NameInverter
 
-let invert name =
-    name
+open System
+
+let invert (name: string) =
+    match name.Split ' ' with
+    | [| first |] -> first
+    | [| first; last |] -> last + ", " + first
+    | _ -> ""
+    
