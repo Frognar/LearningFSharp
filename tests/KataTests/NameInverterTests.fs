@@ -23,6 +23,8 @@ let ``Should be 'last, first' when invert 'first    last'`` () =
 let ``Should be 'last, first' when invert 'honorific first last'`` () =
     Assert.Equal("Lupercal, Horus", invert "Mr. Horus Lupercal")
 
-[<Fact>]
-let ``Should be 'last, first postnominal' when invert 'first last postnominal'`` () =
-    Assert.Equal("Lupercal, Horus Sr.", invert "Horus Lupercal Sr.")
+[<Theory>]
+[<InlineData("Horus Lupercal Sr.", "Lupercal, Horus Sr.")>]
+[<InlineData("Horus Lupercal PhD.", "Lupercal, Horus PhD.")>]
+let ``Should be 'last, first postnominal' when invert 'first last postnominal'`` value expected =
+    Assert.Equal(expected, invert value)
