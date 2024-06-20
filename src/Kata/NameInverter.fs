@@ -7,10 +7,10 @@ let isHonorific (candidate: string) =
     List.contains candidate knownHonorifics
 
 let invert (name: string) =
-    match name.Split(' ', StringSplitOptions.RemoveEmptyEntries) with
-    | [| first |] -> first
-    | [| first; last |] -> last + ", " + first
-    | [| honorific; first; last |] when isHonorific honorific -> last + ", " + first
-    | [| first; last; postnominal |] -> last + ", " + first + " " + postnominal
+    match name.Split(' ', StringSplitOptions.RemoveEmptyEntries) |> Array.toList with
+    | [ first ] -> first
+    | [ first; last ] -> last + ", " + first
+    | [ honorific; first; last ] when isHonorific honorific -> last + ", " + first
+    | first :: last :: tail -> tail |> (List.fold (fun s v -> s + " " + v) (last + ", " + first))
     | _ -> ""
     
