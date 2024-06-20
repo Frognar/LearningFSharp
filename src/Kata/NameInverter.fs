@@ -11,6 +11,7 @@ let invert (name: string) =
     | [ first ] -> first
     | [ first; last ] -> last + ", " + first
     | [ honorific; first; last ] when isHonorific honorific -> last + ", " + first
+    | honorific :: first :: last :: tail when isHonorific honorific -> tail |> (List.fold (fun s v -> s + " " + v) (last + ", " + first))
     | first :: last :: tail -> tail |> (List.fold (fun s v -> s + " " + v) (last + ", " + first))
     | _ -> ""
     

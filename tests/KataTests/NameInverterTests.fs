@@ -32,3 +32,6 @@ let ``Should be 'last, first postnominal' when invert 'first last postnominal'``
 [<Fact>]
 let ``Should be 'last, first postnominals' when invert 'first last postnominals'`` () =
     Assert.Equal("Lupercal, Horus Sr. PhD.", invert "Horus Lupercal Sr. PhD.")
+[<Fact>]
+let ``Should be 'last, first postnominals' when invert '  honorific   first   last   postnominals   '`` () =
+    Assert.Equal("Lupercal, Horus Sr. PhD.", invert "   Mr.   Horus   Lupercal   Sr.   PhD.   ")
