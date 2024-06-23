@@ -10,3 +10,7 @@ let ``"1" -> "11"`` () =
 [<Fact>]
 let ``"11" -> "21"`` () =
     Assert.Equal("21", lookAndSay "11")
+
+[<Fact>]
+let ``"21" -> "1211"`` () =
+    Assert.Equal("1211", lookAndSay "21")
