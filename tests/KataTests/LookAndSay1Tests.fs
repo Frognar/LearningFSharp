@@ -14,3 +14,19 @@ let ``"11" -> "21"`` () =
 [<Fact>]
 let ``"21" -> "1211"`` () =
     Assert.Equal("1211", lookAndSay "21")
+
+[<Fact>]
+let ``"1211" -> "111221"`` () =
+    Assert.Equal("111221", lookAndSay "1211")
+
+[<Fact>]
+let ``"111221" -> "312211"`` () =
+    Assert.Equal("312211", lookAndSay "111221")
+
+[<Fact>]
+let ``"312211" -> "13112221"`` () =
+    Assert.Equal("13112221", lookAndSay "312211")
+
+[<Fact>]
+let ``"13112221" -> "1113213211"`` () =
+    Assert.Equal("1113213211", lookAndSay "13112221")
