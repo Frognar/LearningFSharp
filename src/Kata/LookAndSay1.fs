@@ -1,7 +1,10 @@
 module Kata.LookAndSay1
 
 let lookAndSay number =
-    match String.length number with
-    | 1 -> "1" + number
-    | _ when number[0] = number[1] -> "2" + string number[0]
-    | _ -> "1" + string number[0] + "1" + string number[1]
+    let rec loop x count result =
+        match String.length x with
+        | 1 -> result + string count + x
+        | _ when x[0] = x[1] -> loop x[1..] (count + 1) result
+        | _ -> loop x[1..] 1 (result + string count + string x[0])
+    
+    loop number 1 ""
