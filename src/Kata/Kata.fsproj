@@ -16,8 +16,6 @@
         <Compile Include="BowlingGame.fs" />
         <Compile Include="NameInverter.fs" />
         <Compile Include="LookAndSay1.fs" />
-        <Compile Include="LookAndSay1.fs" />
-        <Compile Include="NameInverter.fs" />
     </ItemGroup>
 
 </Project>

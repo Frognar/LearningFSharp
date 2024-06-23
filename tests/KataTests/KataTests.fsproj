@@ -19,8 +19,6 @@
         <Compile Include="BowlingGameTests.fs" />
         <Compile Include="NameInverterTests.fs" />
         <Compile Include="LookAndSay1Tests.fs" />
-        <Compile Include="LookAndSay1Tests.fs" />
-        <Compile Include="NameInverterTests.fs" />
         <Compile Include="Program.fs"/>
     </ItemGroup>
 
