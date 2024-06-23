@@ -38,3 +38,7 @@ let ``"1" x 0 -> "1"`` () =
 [<Fact>]
 let ``"1" x 1 -> "1:11"`` () =
     Assert.Equal("1:11", lookAndSaySequence "1" 1)
+    
+[<Fact>]
+let ``"1" x 2 -> "1:11:21"`` () =
+    Assert.Equal("1:11:21", lookAndSaySequence "1" 2)

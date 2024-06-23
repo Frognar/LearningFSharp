@@ -10,6 +10,9 @@ let lookAndSay number =
     loop number 1 ""
 
 let lookAndSaySequence number depth =
-    match depth with
-    | 0 -> number
-    | _ -> number + ":" + lookAndSay number
+    let rec loop x y result =
+        match y with
+        | 0 -> result
+        | _ -> loop (lookAndSay x) (y - 1) (result + ":" + lookAndSay x)
+   
+    loop number depth number
