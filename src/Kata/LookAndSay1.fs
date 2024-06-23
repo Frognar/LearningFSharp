@@ -10,4 +10,4 @@ let lookAndSay number =
     loop number 1 ""
 
 let lookAndSaySequence number depth =
-    "1"
+    number
