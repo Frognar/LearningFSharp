@@ -30,3 +30,7 @@ let ``"312211" -> "13112221"`` () =
 [<Fact>]
 let ``"13112221" -> "1113213211"`` () =
     Assert.Equal("1113213211", lookAndSay "13112221")
+    
+[<Fact>]
+let ``"1" x 0 -> "1"`` () =
+    Assert.Equal("1", lookAndSaySequence "1" 0)

@@ -8,3 +8,6 @@ let lookAndSay number =
         | _ -> loop x[1..] 1 (result + string count + string x[0])
     
     loop number 1 ""
+
+let lookAndSaySequence number depth =
+    "1"
