@@ -1,4 +1,6 @@
 module Kata.LookAndSay1
 
 let lookAndSay number =
-    "1" + number
+    match String.length number with
+    | 1 -> "1" + number
+    | _ -> "2" + string number[0]
