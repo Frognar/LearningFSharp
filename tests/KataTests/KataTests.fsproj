@@ -17,6 +17,7 @@
         <Compile Include="FizzBuzz0Tests.fs" />
         <Compile Include="LookAndSayTests.fs" />
         <Compile Include="BowlingGameTests.fs" />
+        <Compile Include="LookAndSay1Tests.fs" />
         <Compile Include="Program.fs"/>
     </ItemGroup>
 
