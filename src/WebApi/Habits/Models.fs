@@ -7,7 +7,7 @@ type Frequency =
 
 type Name = string
 
-type HabitId = Guid
+type HabitId = System.Guid
 
 type Habit = {
     Id : HabitId
