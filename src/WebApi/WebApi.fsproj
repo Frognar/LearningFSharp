@@ -8,6 +8,7 @@
         <Compile Include="WeatherForecast.fs"/>
         <Compile Include="Controllers/WeatherForecastController.fs"/>
         <Compile Include="Habits\Models.fs" />
+        <Compile Include="Habits\Contract.fs" />
         <Compile Include="Habits\HabitsController.fs" />
         <Compile Include="Program.fs"/>
     </ItemGroup>
