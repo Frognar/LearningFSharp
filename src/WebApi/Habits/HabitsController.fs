@@ -23,3 +23,11 @@ type HabitsController() =
         }
         
         dto
+    
+    [<HttpPost>]
+    member this.Post([<FromBody>] habitDto: {|Name : string; Frequency: string|}) =
+        let frequency = Parser.parseFrequency habitDto.Frequency
+        let habit = frequency |> Option.map (fun f -> { Id = System.Guid.NewGuid(); Name = habitDto.Name; Frequency = f }: Habit)
+        match habit with
+        | Some x -> printf $"{x}"
+        | None -> printf "Wrong frequency!"
