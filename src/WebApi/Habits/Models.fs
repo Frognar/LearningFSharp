@@ -5,6 +5,14 @@ type Frequency =
     | Weekly
     | Monthly
 
+module Parser =
+    let parseFrequency (candidate: string) =
+        match candidate.ToUpper() with
+        | "DAILY" -> Some Daily
+        | "WEEKLY" -> Some Weekly
+        | "MONTHLY" -> Some Monthly
+        | _ -> None
+
 type Name = string
 
 type HabitId = System.Guid
