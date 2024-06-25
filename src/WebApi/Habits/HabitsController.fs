@@ -15,4 +15,11 @@ type HabitsController() =
             Name = "Test habit"
             Frequency = Daily 
         }
-        habit.ToString()
+        
+        let dto: HabitDto = {
+            Id = habit.Id
+            Name = habit.Name
+            Frequency = habit.Frequency.ToString() 
+        }
+        
+        dto
