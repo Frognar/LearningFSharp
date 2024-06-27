@@ -10,20 +10,27 @@ type HabitsController(context: HabitContext) =
     
     
     [<HttpGet>]
-    member this.Get() =
-        let habit: Habit = {
-            Id = System.Guid.NewGuid()
-            Name = "Test habit"
-            Frequency = Daily 
-        }
+    member this.Get (id: System.Guid) =
+        let dbHabit: DbHabit = context.Habits.Find id
+        let optionDbHabit = if obj.ReferenceEquals(dbHabit, null) then None else Some dbHabit
+        let habit : Habit option = optionDbHabit |> Option.map (fun h -> {
+                Id = h.Id
+                Name = h.Name
+                Frequency =
+                    match Parser.parseFrequency h.Frequency with
+                    | Some f -> f
+                    | None -> failwith "Bad Data"
+            })
         
-        let dto: HabitDto = {
-            Id = habit.Id
-            Name = habit.Name
-            Frequency = habit.Frequency.ToString() 
-        }
+        let dto = habit |> Option.map (fun h -> {
+            Id = h.Id
+            Name = h.Name
+            Frequency = h.Frequency.ToString() 
+        })
         
-        dto
+        match dto with
+        | Some v -> this.Ok v :> IActionResult
+        | _ -> this.NotFound () :> IActionResult
     
     [<HttpPost>]
     member this.Post([<FromBody>] habitDto: {|Name : string; Frequency: string|}) =
