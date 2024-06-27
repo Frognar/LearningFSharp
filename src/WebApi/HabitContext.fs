@@ -2,6 +2,7 @@ namespace WebApi.Data
 
 open Microsoft.EntityFrameworkCore
 
+[<CLIMutable>] 
 type DbHabit = {
     Id : System.Guid
     Name : string
@@ -11,7 +12,12 @@ type DbHabit = {
 type HabitContext() =
     inherit DbContext()
     
-    member val Habits : DbSet<DbHabit> = null with get, set
+    [<DefaultValue>]
+    val mutable habits : DbSet<DbHabit>
+    
+    member public this.Habits
+        with get() = this.habits
+        and set h = this.habits <- h
     
     override this.OnConfiguring(optionsBuilder) =
         optionsBuilder.UseSqlite("Data Source=habits.db") |> ignore
