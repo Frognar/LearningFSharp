@@ -8,5 +8,5 @@ let (|IsMultOf3|_|) x =
 let render x =
     match x with
     | IsMultOf3 -> "Fizz"
-    | 5 -> "Buzz"
+    | _ when x % 5 = 0 -> "Buzz"
     | _ -> x.ToString()
