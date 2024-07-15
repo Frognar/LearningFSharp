@@ -16,3 +16,6 @@ let render x =
     | IsMultOf3 -> "Fizz"
     | IsMultOf5 -> "Buzz"
     | _ -> x.ToString()
+
+let fizzBuzz () =
+    [1..100] |> List.map render
