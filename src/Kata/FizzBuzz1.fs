@@ -12,6 +12,7 @@ let (|IsMultOf5|_|) x =
 
 let render x =
     match x with
+    | IsMultOf3 & IsMultOf5 -> "FizzBuzz"
     | IsMultOf3 -> "Fizz"
     | IsMultOf5 -> "Buzz"
     | _ -> x.ToString()
