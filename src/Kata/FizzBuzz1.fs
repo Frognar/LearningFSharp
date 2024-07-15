@@ -1,3 +1,8 @@
 module Kata.FizzBuzz1
 
-let render x = x.ToString()
+open System.Diagnostics
+
+let render x =
+    match x with
+    | 3 -> "Fizz"
+    | _ -> x.ToString()
