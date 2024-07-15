@@ -15,6 +15,7 @@
         <Compile Include="PrimeTests.fs" />
         <Compile Include="PrimeFactors2Tests.fs" />
         <Compile Include="FizzBuzz0Tests.fs" />
+        <Compile Include="FizzBuzz1Tests.fs" />
         <Compile Include="LookAndSayTests.fs" />
         <Compile Include="BowlingGameTests.fs" />
         <Compile Include="NameInverterTests.fs" />
