@@ -18,3 +18,7 @@ let ``render 3 should be Fizz``() =
 [<Fact>]
 let ``render 5 should be Buzz``() =
     Assert.Equal("Buzz", render 5)
+
+[<Fact>]
+let ``render 6 should be Fizz``() =
+    Assert.Equal("Fizz", render 6)
