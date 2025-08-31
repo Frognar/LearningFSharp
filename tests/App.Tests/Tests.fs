@@ -40,3 +40,15 @@ let ``normalizeName trims leading and trailing whitespace`` () =
 let ``normalizeName collapses multiple inner spaces`` () =
     let result = normalizeName "Ala   Nowak"
     Assert.Equal("Ala Nowak", result)
+
+[<Fact>]
+let ``formatContact formats email contact`` () =
+    let p : Person = { Name = "Ala"; Contact = Email alaEmail }
+    let text = formatContact p
+    Assert.Equal("Ala can be contacted via email: ala@example.com", text)
+
+[<Fact>]
+let ``formatContact formats phone with normalization`` () =
+    let p : Person = { Name = "Ola"; Contact = Phone "123 456-789" }
+    let text = formatContact p
+    Assert.Equal("Ola can be contacted via phone: 123456789", text)
