@@ -27,7 +27,7 @@ module Domain =
         | Email e -> "email", e
         | Phone p -> "phone", normalizePhone p
 
-    let formatContact (person: Person) =
-        let label, value = formatContactMethod person.Contact
-        $"{person.Name} can be contacted via {label}: {value}"
+    let formatContact {Name = name; Contact = contact} =
+        let label, value = formatContactMethod contact
+        $"{name} can be contacted via {label}: {value}"
         
