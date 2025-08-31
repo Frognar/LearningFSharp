@@ -23,7 +23,11 @@ module Domain =
 
     let normalizeName (name: string) = name |> normalizeWhitespace
 
+    let formatContactMethod = function
+        | Email e -> "email", e
+        | Phone p -> "phone", normalizePhone p
+
     let formatContact (person: Person) =
-        match person.Contact with
-        | Email e -> person.Name + " can be contacted via email: " + e
-        | Phone p -> person.Name + " can be contacted via phone: " + normalizePhone p
+        let label, value = formatContactMethod person.Contact
+        $"{person.Name} can be contacted via {label}: {value}"
+        
