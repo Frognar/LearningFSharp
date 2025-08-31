@@ -52,3 +52,24 @@ let ``formatContact formats phone with normalization`` () =
     let p : Person = { Name = "Ola"; Contact = Phone "123 456-789" }
     let text = formatContact p
     Assert.Equal("Ola can be contacted via phone: 123456789", text)
+
+[<Fact>]
+let ``withContact returns NEW person and does not mutate original`` () =
+    let original : Person = { Name = "Ala"; Contact = Email alaEmail }
+    let updated  : Person = withContact (Phone "111-222-333") original
+
+    match updated.Contact with
+    | Phone p -> Assert.Equal("111222333", p)
+    | _ -> failwith "Expected Phone after update"
+
+    match original.Contact with
+    | Email e -> Assert.Equal(alaEmail, e)
+    | _ -> failwith "Original should remain Email"
+
+[<Fact>]
+let ``withContact keeps name identity but allows re-normalization in formatContact`` () =
+    let original : Person = { Name = "  Ola  Kowalska "; Contact = Email alaEmail }
+    let updated  : Person = withContact (Phone "  (12) 345-67-89  ") original
+
+    let text = formatContact updated
+    Assert.Equal("Ola Kowalska can be contacted via phone: 123456789", text)
