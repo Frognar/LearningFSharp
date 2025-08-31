@@ -30,3 +30,13 @@ let ``tryCreateEmail rejects address without at-sign`` () =
     match result with
     | Error _ -> Assert.True(true)
     | Ok _ -> failwith "Expected Error for invalid email"
+
+[<Fact>]
+let ``normalizeName trims leading and trailing whitespace`` () =
+    let result = normalizeName "  Ala  "
+    Assert.Equal("Ala", result)
+
+[<Fact>]
+let ``normalizeName collapses multiple inner spaces`` () =
+    let result = normalizeName "Ala   Nowak"
+    Assert.Equal("Ala Nowak", result)
