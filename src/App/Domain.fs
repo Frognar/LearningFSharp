@@ -31,7 +31,12 @@ module Domain =
         let label, value = formatContactMethod contact
         $"{name} can be contacted via {label}: {value}"
 
+    let normalizeContact contact : Contact =
+        match contact with
+        | Email e -> Email e
+        | Phone p -> Phone (normalizePhone p)
+
     let withContact (contact: Contact) (person: Person) =
-        { person with Name = normalizeName person.Name; Contact = match contact with
-                                                                  | Phone p -> Phone (normalizePhone p)
-                                                                  | Email e -> Email e }
+        { person with
+            Name = person.Name |> normalizeName
+            Contact = contact |> normalizeContact }
