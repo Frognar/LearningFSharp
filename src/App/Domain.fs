@@ -66,7 +66,17 @@ module Domain =
         | [] -> None
         | _ -> Some (xs |> List.reduce f)
 
-    let average (xs: float list)=
+    let average xs =
         match xs with
         | [] -> None
         | _ -> Some ((List.sum xs) / (float (List.length xs)))
+
+    let median (xs: float list) =
+        match xs with
+        | [] -> None
+        | _ ->
+            let count = xs |> List.length
+            let sorted = xs |> List.sort
+            let isEven = count % 2 = 0
+            if isEven then sorted |> List.skip ((count / 2) - 1) |> List.take 2 |> List.average |> Some
+            else sorted |> List.skip (count/2) |> List.head |> Some
