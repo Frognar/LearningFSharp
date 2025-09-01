@@ -60,3 +60,14 @@ let ``countBy groups by parity`` () =
     let result = countBy asKey input
     Assert.Equal(3, result.["odd"])
     Assert.Equal(3, result.["even"])
+
+type User = { Id:int; Name:string }
+[<Fact>]
+let ``distinctBy keeps first occurrence and preserves order`` () =
+    let input =
+        [ {Id=1;Name="A"}; {Id=2;Name="B"}; {Id=1;Name="A-dup"}; {Id=3;Name="C"}; {Id=2;Name="B-dup"} ]
+    let result = distinctBy (fun u -> u.Id) input
+    Assert.Equal<User list>(
+        [ {Id=1;Name="A"}; {Id=2;Name="B"}; {Id=3;Name="C"} ],
+        result
+    )

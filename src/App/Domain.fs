@@ -105,3 +105,13 @@ module Domain =
             |> Map.change (getKey v) (function
                 | Some x -> Some(x + 1)
                 | None -> Some 1))
+
+    let distinctBy getKey xs =
+        (Map.empty, xs)
+        ||> List.fold (fun acc v ->
+            acc
+            |> Map.change (getKey v) (function
+                | Some x -> Some x
+                | None -> Some v))
+        |> Map.values
+        |> Seq.toList
