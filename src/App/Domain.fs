@@ -107,11 +107,9 @@ module Domain =
                 | None -> Some 1))
 
     let distinctBy getKey xs =
-        (Map.empty, xs)
-        ||> List.fold (fun acc v ->
-            acc
-            |> Map.change (getKey v) (function
-                | Some x -> Some x
-                | None -> Some v))
-        |> Map.values
-        |> Seq.toList
+        let step (seen, acc) v =
+            let key = getKey v
+            if Set.contains key seen then (seen, acc)
+            else (Set.add key seen, v :: acc)
+
+        xs |> List.fold step (Set.empty, []) |> snd |> List.rev
