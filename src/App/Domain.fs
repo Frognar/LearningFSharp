@@ -57,3 +57,6 @@ module Domain =
 
     let map' f xs =
         (xs, []) ||> List.foldBack (fun v acc -> f v :: acc)
+
+    let filter' pred xs =
+        (xs, []) ||> List.foldBack (fun v acc -> if pred v then v :: acc else acc)
