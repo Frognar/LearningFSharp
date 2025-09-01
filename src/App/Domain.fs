@@ -1,5 +1,6 @@
 ﻿namespace App
 
+open System.Collections.Generic
 open System.Text.RegularExpressions
 
 module Domain =
@@ -54,3 +55,6 @@ module Domain =
             | Phone p -> $"{name} can be contacted via phone: {PhoneNumber.value p}"
 
         let contact (p: Person) = p.Contact             
+
+    let map' (mapFun: 'a -> 'b) (input: 'a list) =
+        ([], input) ||> List.fold (fun s v -> List.append s [mapFun v])
