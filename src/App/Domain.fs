@@ -137,7 +137,5 @@ module Domain =
         |> List.truncate n
     
     let topWordsFromText n text =
-        let map = text
-                  |> wordCount
-
+        let map = text |> wordCount
         topNWords map n
