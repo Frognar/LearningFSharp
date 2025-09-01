@@ -129,3 +129,12 @@ module Domain =
         |> Array.map _.ToLower()
         |> Array.toList
         |> countBy id
+
+    let topNWords map n =
+        let lst = map
+                |> Map.toList
+                |> List.sortBy snd
+                |> List.rev
+        let cnt = List.length lst
+        lst |> List.take (min cnt n)
+        

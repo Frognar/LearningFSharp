@@ -89,3 +89,18 @@ let ``wordCount ignores empty tokens and multiple spaces`` () =
     let wc = wordCount text
     Assert.Equal(1, wc.["ala"])
     Assert.Equal(1, wc.Count)
+
+
+[<Fact>]
+let ``topNWords sorts by count desc then word asc`` () =
+    let m =
+        [ "ala",3; "ma",3; "kota",2; "żółć",2; "pies",2; "x",1 ]
+        |> Map.ofList
+    let result = topNWords m 5
+    Assert.Equivalent([ ("ala",3); ("ma",3); ("kota",2); ("pies",2); ("żółć",2) ], result)
+
+[<Fact>]
+let ``topNWords fewer than requested returns all`` () =
+    let m = [ "a",2; "b",1 ] |> Map.ofList
+    let result = topNWords m 10
+    Assert.Equivalent([("a",2);("b",1)], result)
