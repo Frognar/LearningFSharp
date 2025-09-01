@@ -56,5 +56,5 @@ module Domain =
 
         let contact (p: Person) = p.Contact             
 
-    let map' (mapFun: 'a -> 'b) (input: 'a list) =
-        ([], input) ||> List.fold (fun s v -> List.append s [mapFun v])
+    let map' f xs =
+        xs |> List.fold (fun acc v -> f v :: acc) [] |> List.rev
