@@ -71,12 +71,24 @@ module Domain =
         | [] -> None
         | _ -> Some ((List.sum xs) / (float (List.length xs)))
 
-    let median (xs: float list) =
+    let median xs =
         match xs with
         | [] -> None
         | _ ->
             let count = xs |> List.length
             let sorted = xs |> List.sort
-            let isEven = count % 2 = 0
-            if isEven then sorted |> List.skip ((count / 2) - 1) |> List.take 2 |> List.average |> Some
-            else sorted |> List.skip (count/2) |> List.head |> Some
+            if count % 2 = 1 then sorted |> List.item (count / 2) |> Some
+            else
+                let i = count / 2
+                let a = sorted |> List.item (i - 1)
+                let b = sorted |> List.item i
+                Some ((a + b) / 2.)
+
+    let variancePop (xs: float list) =
+        match xs with
+        | [] -> None
+        | _ ->
+            let avg = xs |> List.average
+            let diff = xs |> List.map (fun x -> x - avg)
+            let squares = diff |> List.map (fun x -> x * x)
+            squares |> List.average |> Some
