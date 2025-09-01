@@ -60,3 +60,13 @@ module Domain =
 
     let filter' pred xs =
         (xs, []) ||> List.foldBack (fun v acc -> if pred v then v :: acc else acc)
+    
+    let reduceOption f xs =
+        match xs with
+        | [] -> None
+        | _ -> Some (xs |> List.reduce f)
+
+    let average (xs: float list)=
+        match xs with
+        | [] -> None
+        | _ -> Some ((List.sum xs) / (float (List.length xs)))
