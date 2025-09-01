@@ -71,3 +71,21 @@ let ``distinctBy keeps first occurrence and preserves order`` () =
         [ {Id=1;Name="A"}; {Id=2;Name="B"}; {Id=3;Name="C"} ],
         result
     )
+
+[<Fact>]
+let ``wordCount handles punctuation and casing and Polish letters`` () =
+    let text = "Ala ma kota! ala, ma;   KOTA?  Żółć żółć."
+    let wc = wordCount text
+    Assert.Equal(2, wc.["ala"])
+    Assert.Equal(2, wc.["ma"])
+    Assert.Equal(2, wc.["kota"])
+    Assert.Equal(2, wc.["żółć"])
+    Assert.True(wc.ContainsKey "ala")
+    Assert.False(wc.ContainsKey "Ala")    
+
+[<Fact>]
+let ``wordCount ignores empty tokens and multiple spaces`` () =
+    let text = "   ...   Ala    ---  "
+    let wc = wordCount text
+    Assert.Equal(1, wc.["ala"])
+    Assert.Equal(1, wc.Count)

@@ -1,5 +1,6 @@
 ﻿namespace App
 
+open System
 open System.Text.RegularExpressions
 
 module Domain =
@@ -113,3 +114,18 @@ module Domain =
             else (Set.add key seen, v :: acc)
 
         xs |> List.fold step (Set.empty, []) |> snd |> List.rev
+
+    let clean (input: string) =
+        Regex.Replace(input, @"[^a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s]", "")
+
+    let splitWords text =
+        Regex.Split(text, @"\s+")
+        |> Array.filter (fun s -> s <> "")
+
+    let wordCount text =
+        text
+        |> clean
+        |> splitWords
+        |> Array.map _.ToLower()
+        |> Array.toList
+        |> countBy id
