@@ -104,3 +104,10 @@ let ``topNWords fewer than requested returns all`` () =
     let m = [ "a",2; "b",1 ] |> Map.ofList
     let result = topNWords m 10
     Assert.Equivalent([("a",2);("b",1)], result)
+
+
+[<Fact>]
+let ``topWordsFromText returns top 3 words from text`` () =
+    let text = "Ala ma kota. Ala nie ma psa, ale ma kota!"
+    let result = topWordsFromText 3 text
+    Assert.Equivalent([("ma",3);("ala",2);("kota",2)], result)

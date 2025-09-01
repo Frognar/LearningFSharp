@@ -135,4 +135,9 @@ module Domain =
         |> Map.toList
         |> List.sortByDescending snd
         |> List.truncate n
-        
+    
+    let topWordsFromText n text =
+        let map = text
+                  |> wordCount
+
+        topNWords map n
