@@ -1,6 +1,5 @@
 ﻿namespace App
 
-open System.Collections.Generic
 open System.Text.RegularExpressions
 
 module Domain =
@@ -57,4 +56,4 @@ module Domain =
         let contact (p: Person) = p.Contact             
 
     let map' f xs =
-        xs |> List.fold (fun acc v -> f v :: acc) [] |> List.rev
+        (xs, []) ||> List.foldBack (fun v acc -> f v :: acc)
