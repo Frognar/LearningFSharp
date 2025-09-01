@@ -111,3 +111,22 @@ let ``topWordsFromText returns top 3 words from text`` () =
     let text = "Ala ma kota. Ala nie ma psa, ale ma kota!"
     let result = topWordsFromText 3 text
     Assert.Equivalent([("ma",3);("ala",2);("kota",2)], result)
+
+
+[<Fact>]
+let ``wordCount with numbers keeps alphanumeric tokens`` () =
+    let text = "R2D2 i C3PO to roboty. r2d2!"
+    let wc = wordCount text
+    Assert.Equal(2, wc.["r2d2"])
+    Assert.Equal(1, wc.["c3po"])
+
+[<Fact>]
+let ``median and variancePop on singleton`` () =
+    let input = [42.0]
+    Assert.Equal(Some 42.0, median input)
+    Assert.Equal(Some 0.0, variancePop input)
+
+[<Fact>]
+let ``countBy on empty yields empty map`` () =
+    let result = countBy id ([]: int list)
+    Assert.Equal(0, result.Count)
