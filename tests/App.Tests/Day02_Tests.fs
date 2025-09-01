@@ -52,3 +52,11 @@ let ``variancePop population variance computed correctly`` () =
     let input = [2.0;4.0;4.0;4.0;5.0;5.0;7.0;9.0]
     let result = variancePop input
     Assert.Equal(Some 4.0, result)
+
+[<Fact>]
+let ``countBy groups by parity`` () =
+    let input = [1;2;3;4;5;6]
+    let asKey x = if x % 2 = 0 then "even" else "odd"
+    let result = countBy asKey input
+    Assert.Equal(3, result.["odd"])
+    Assert.Equal(3, result.["even"])

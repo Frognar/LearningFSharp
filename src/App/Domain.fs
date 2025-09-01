@@ -39,37 +39,40 @@ module Domain =
         | Email of EmailAddress
         | Phone of PhoneNumber
 
-    type Person = private { Name: PersonName; Contact: Contact }
-    module Person =
-        let create name contact =
-            { Name = name; Contact = contact }
+    type Person =
+        private
+            { Name: PersonName
+              Contact: Contact }
 
-        let withContact contact p =
-            { p with Contact = contact }
+    module Person =
+        let create name contact = { Name = name; Contact = contact }
+
+        let withContact contact p = { p with Contact = contact }
 
         let format p =
             let name: string = PersonName.value p.Name
+
             match p.Contact with
             | Email e -> $"{name} can be contacted via email: {EmailAddress.value e}"
             | Phone p -> $"{name} can be contacted via phone: {PhoneNumber.value p}"
 
-        let contact (p: Person) = p.Contact             
+        let contact (p: Person) = p.Contact
 
     let map' f xs =
         (xs, []) ||> List.foldBack (fun v acc -> f v :: acc)
 
     let filter' pred xs =
         (xs, []) ||> List.foldBack (fun v acc -> if pred v then v :: acc else acc)
-    
+
     let reduceOption f xs =
         match xs with
         | [] -> None
-        | _ -> Some (xs |> List.reduce f)
+        | _ -> Some(xs |> List.reduce f)
 
     let average xs =
         match xs with
         | [] -> None
-        | _ -> Some ((List.sum xs) / (float (List.length xs)))
+        | _ -> Some((List.sum xs) / (float (List.length xs)))
 
     let median xs =
         match xs with
@@ -77,12 +80,14 @@ module Domain =
         | _ ->
             let count = xs |> List.length
             let sorted = xs |> List.sort
-            if count % 2 = 1 then sorted |> List.item (count / 2) |> Some
+
+            if count % 2 = 1 then
+                sorted |> List.item (count / 2) |> Some
             else
                 let i = count / 2
                 let a = sorted |> List.item (i - 1)
                 let b = sorted |> List.item i
-                Some ((a + b) / 2.)
+                Some((a + b) / 2.)
 
     let variancePop (xs: float list) =
         match xs with
@@ -92,3 +97,11 @@ module Domain =
             let diff = xs |> List.map (fun x -> x - avg)
             let squares = diff |> List.map (fun x -> x * x)
             squares |> List.average |> Some
+
+    let countBy (getKey: 'a -> 'key) (xs: 'a list) : Map<'key, int> =
+        (Map.empty, xs)
+        ||> List.fold (fun acc v ->
+            acc
+            |> Map.change (getKey v) (function
+                | Some x -> Some(x + 1)
+                | None -> Some 1))
