@@ -39,6 +39,11 @@ module Domain =
     type Contact =
         | Email of EmailAddress
         | Phone of PhoneNumber
+    
+    module Contact =
+        let value (c: Contact) = match c with
+                                    | Email e -> EmailAddress.value e
+                                    | Phone p -> PhoneNumber.value p
 
     type Person =
         private
@@ -58,6 +63,8 @@ module Domain =
             | Phone p -> $"{name} can be contacted via phone: {PhoneNumber.value p}"
 
         let contact (p: Person) = p.Contact
+        
+        let name (p: Person) = p.Name
 
     let map' f xs =
         (xs, []) ||> List.foldBack (fun v acc -> f v :: acc)
@@ -159,3 +166,13 @@ module Domain =
     let validateNonEmpty raw =
         if String.IsNullOrWhiteSpace(raw) then Error "Required"
         else Ok (raw.Trim())
+
+    let registerUser userName userEmail =
+        match validateNonEmpty userName with
+        | Ok n ->
+            let name = PersonName.create n
+            let email = EmailAddress.create userEmail
+            match email with
+            | Ok e -> Ok (Person.create name (Email e))
+            | Error e -> Error e
+        | Error e -> Error e

@@ -46,3 +46,26 @@ let ``validateNonEmpty rejects empty or whitespace`` raw =
     match validateNonEmpty raw with
     | Error "Required" -> Assert.True(true)
     | _ -> failwith "Expected Error \"Required\""
+
+[<Fact>]
+let ``registerUser success builds User with normalized name`` () =
+    let res = registerUser "  Ola  Kowalska " "ola@example.com"
+    match res with
+    | Ok u ->
+        Assert.Equal("Ola Kowalska", PersonName.value (Person.name u))
+        Assert.Equal("ola@example.com", Contact.value (Person.contact u))
+    | Error e -> failwithf "Unexpected error: %s" e
+
+[<Fact>]
+let ``registerUser fails on empty name`` () =
+    let res = registerUser "   " "ala@example.com"
+    match res with
+    | Error msg -> Assert.Equal("Required", msg)
+    | Ok _ -> failwith "Expected Error for empty name"
+
+[<Fact>]
+let ``registerUser fails on invalid email`` () =
+    let res = registerUser "Ala" "alaexample.com"
+    match res with
+    | Error _ -> Assert.True(true)
+    | Ok _ -> failwith "Expected Error for bad email"
