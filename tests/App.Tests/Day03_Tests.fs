@@ -23,3 +23,10 @@ let ``rbind binds Ok and short-circuits Error`` () =
     Assert.Equal(Ok 15, a)
     Assert.Equal(Error "non-positive", b)
     Assert.Equal(Error "nope", c)
+
+[<Fact>]
+let ``rmapError transforms only error`` () =
+    let a = Ok "v" |> Rop.rmapError (fun _ -> "X")
+    let b = (Error "bad") |> Rop.rmapError (fun e -> $"ERR:{e}")
+    Assert.Equal(Ok "v", a)
+    Assert.Equal(Error "ERR:bad", b)

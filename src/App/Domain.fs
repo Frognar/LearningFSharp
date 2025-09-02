@@ -149,3 +149,8 @@ module Domain =
             match r with
             | Ok v -> f v
             | Error e -> Error e
+        
+        let rmapError f r =
+            match r with
+            | Ok v -> Ok v
+            | Error e -> Error (f e)
