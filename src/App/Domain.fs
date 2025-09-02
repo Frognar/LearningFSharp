@@ -1,5 +1,6 @@
 ﻿namespace App
 
+open System
 open System.Text.RegularExpressions
 
 module Domain =
@@ -154,3 +155,7 @@ module Domain =
             match r with
             | Ok v -> Ok v
             | Error e -> Error (f e)
+
+    let validateNonEmpty raw =
+        if String.IsNullOrWhiteSpace(raw) then Error "Required"
+        else Ok (raw.Trim())

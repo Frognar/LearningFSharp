@@ -30,3 +30,19 @@ let ``rmapError transforms only error`` () =
     let b = (Error "bad") |> Rop.rmapError (fun e -> $"ERR:{e}")
     Assert.Equal(Ok "v", a)
     Assert.Equal(Error "ERR:bad", b)
+
+[<Theory>]
+[<InlineData("  Ala  ", "Ala")>]
+[<InlineData("Jan", "Jan")>]
+let ``validateNonEmpty trims and returns original string`` (raw, expected) =
+    match validateNonEmpty raw with
+    | Ok s -> Assert.Equal(expected, s)
+    | Error e -> failwithf "Unexpected error: %s" e
+
+[<Theory>]
+[<InlineData("   ")>]
+[<InlineData("")>]
+let ``validateNonEmpty rejects empty or whitespace`` raw =
+    match validateNonEmpty raw with
+    | Error "Required" -> Assert.True(true)
+    | _ -> failwith "Expected Error \"Required\""
