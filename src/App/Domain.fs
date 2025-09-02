@@ -1,6 +1,5 @@
 ﻿namespace App
 
-open System
 open System.Text.RegularExpressions
 
 module Domain =
@@ -139,3 +138,9 @@ module Domain =
     let topWordsFromText n text =
         let map = text |> wordCount
         topNWords map n
+
+    module Rop =
+        let rmap f r =
+            match r with
+            | Ok v -> Ok (f v)
+            | Error e -> Error e
