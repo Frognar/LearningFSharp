@@ -144,3 +144,8 @@ module Domain =
             match r with
             | Ok v -> Ok (f v)
             | Error e -> Error e
+        
+        let rbind f r =
+            match r with
+            | Ok v -> f v
+            | Error e -> Error e
