@@ -182,3 +182,12 @@ module Domain =
             let! x = start
             return! f x
         }
+    
+    let asyncMap f xs =
+        (async { return [] }, xs)
+        ||> List.fold (fun accAsync x ->
+            async {
+                let! acc = accAsync
+                let! y = f x
+                return acc @ [y]
+            })
