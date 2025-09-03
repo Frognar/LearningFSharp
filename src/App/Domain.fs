@@ -184,13 +184,14 @@ module Domain =
         }
     
     let asyncMap f xs =
-        (async { return [] }, xs)
-        ||> List.fold (fun accAsync x ->
-            async {
-                let! acc = accAsync
+        let rec loop acc = function
+            | [] -> async { return List.rev acc }
+            | x :: xt -> async {
                 let! y = f x
-                return acc @ [y]
-            })
+                return! loop (y :: acc) xt
+            }
+        
+        loop [] xs
 
     let asyncMapParallel f xs =
         async {
