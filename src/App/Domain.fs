@@ -176,3 +176,9 @@ module Domain =
             | Ok e -> Ok (Person.create name (Email e))
             | Error e -> Error e
         | Error e -> Error e
+    
+    let asyncBind f start =
+        async {
+            let! x = start
+            return! f x
+        }
