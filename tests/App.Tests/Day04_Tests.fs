@@ -51,3 +51,34 @@ let ``fetchBoth returns tuple of results`` () =
     let b = withDelay 10 42
     let result = fetchBoth a b |> Async.RunSynchronously
     Assert.Equal(("A", 42), result)
+
+[<Fact>]
+let ``asyncMapParallel with Person.format works and keeps order`` () =
+    let mkEmail (s:string) =
+        match EmailAddress.create s with
+        | Ok e -> Email e
+        | Error msg -> failwith msg
+
+    let people =
+        [ ("Ala", "ala@example.com")
+          ("Ola", "ola@example.com")
+          ("Jan", "jan@example.com") ]
+        |> List.map (fun (n,e) -> Person.create (PersonName.create n) (mkEmail e))
+
+    let work (p: Person) = async {
+        do! Async.Sleep 5
+        return Person.format p
+    }
+
+    let result =
+        async {
+            let! r = asyncMapParallel work people
+            return r
+        } |> Async.RunSynchronously
+
+    Assert.Equal<string list>(
+        [ "Ala can be contacted via email: ala@example.com"
+          "Ola can be contacted via email: ola@example.com"
+          "Jan can be contacted via email: jan@example.com" ],
+        result
+    )
