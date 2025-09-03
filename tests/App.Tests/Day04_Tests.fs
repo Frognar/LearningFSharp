@@ -22,3 +22,20 @@ let ``asyncMap maps sequentially preserving order`` () =
         }
         |> Async.RunSynchronously
     Assert.Equal<int list>([1;4;9;16], result)
+
+[<Fact>]
+let ``asyncMapParallel runs in parallel but keeps input order`` () =
+    let input = [ (100,1); (10,2); (50,3); (0,4) ]
+    let work (delay: int, x) =
+        async {
+            do! Async.Sleep delay
+            return x * x
+        }
+
+    let result =
+        async {
+            let! r = asyncMapParallel work input
+            return r
+        }
+        |> Async.RunSynchronously
+    Assert.Equal<int list>([1;4;9;16], result)

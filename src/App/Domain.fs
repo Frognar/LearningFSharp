@@ -191,3 +191,9 @@ module Domain =
                 let! y = f x
                 return acc @ [y]
             })
+
+    let asyncMapParallel f xs =
+        async {
+            let! arr = xs |> List.map f |> Async.Parallel
+            return Array.toList arr
+        }
