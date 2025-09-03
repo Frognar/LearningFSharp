@@ -4,6 +4,11 @@ open Xunit
 open App.Domain
 
 let squareAsync x = async { return x * x }
+let withDelay (millis: int) x =
+    async {
+        do! Async.Sleep millis
+        return x
+   }
 
 [<Fact>]
 let ``asyncBind chains async computations`` () =
@@ -39,3 +44,10 @@ let ``asyncMapParallel runs in parallel but keeps input order`` () =
         }
         |> Async.RunSynchronously
     Assert.Equal<int list>([1;4;9;16], result)
+    
+[<Fact>]
+let ``fetchBoth returns tuple of results`` () =
+    let a = withDelay 20 "A"
+    let b = withDelay 10 42
+    let result = fetchBoth a b |> Async.RunSynchronously
+    Assert.Equal(("A", 42), result)

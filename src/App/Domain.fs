@@ -197,3 +197,10 @@ module Domain =
             let! arr = xs |> List.map f |> Async.Parallel
             return Array.toList arr
         }
+
+    let fetchBoth a b =
+        async {
+            let! ar = a
+            let! br = b
+            return (ar, br)
+        }
