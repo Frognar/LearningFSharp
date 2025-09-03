@@ -200,7 +200,9 @@ module Domain =
 
     let fetchBoth a b =
         async {
-            let! ar = a
-            let! br = b
+            let! a' = Async.StartChild a
+            let! b' = Async.StartChild b
+            let! ar = a'
+            let! br = b'
             return (ar, br)
         }
