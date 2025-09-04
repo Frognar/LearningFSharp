@@ -48,3 +48,20 @@ let ``traverse applies function and sequences results`` () =
     let rBad  = Res.traverse f [1;-1;3]
     Assert.Equal(Ok [2;4;6], rGood)
     Assert.Equal(Error "neg", rBad)
+
+[<Theory>]
+[<InlineData("0", 0)>]
+[<InlineData("42", 42)>]
+let ``parseInt parses valid integers`` (raw, expected) =
+    match parseInt raw with
+    | Ok v -> Assert.Equal(expected, v)
+    | Error e -> failwithf $"Unexpected error: %s{e}"
+
+[<Theory>]
+[<InlineData("x")>]
+[<InlineData("12.3")>]
+[<InlineData("")>]
+let ``parseInt fails on non-integers`` raw =
+    match parseInt raw with
+    | Error "Not an int" -> Assert.True(true)
+    | _ -> failwith "Expected Error \"Not an int\""

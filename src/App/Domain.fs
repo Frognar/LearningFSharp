@@ -229,3 +229,8 @@ module Domain =
         
         let traverse f xs =
             xs |> map' f |> sequence
+    
+    let parseInt (candidate: string) =
+        match Int32.TryParse candidate with
+        | true, value -> Ok value
+        | false, _ -> Error "Not an int"
