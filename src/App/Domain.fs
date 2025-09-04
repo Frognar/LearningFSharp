@@ -215,11 +215,7 @@ module Domain =
             | Error x, _ -> Error x
             | _, Error y -> Error y
 
-        let apply f a =
-            match f, a with
-            | Ok f, Ok x -> Ok (f x)
-            | Error f, _ -> Error f
-            | _, Error x -> Error x
+        let apply f a = map2 id f a
         
         let sequence xs =
             (Ok [], xs)
