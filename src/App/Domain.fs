@@ -234,3 +234,9 @@ module Domain =
         match Int32.TryParse candidate with
         | true, value -> Ok value
         | false, _ -> Error "Not an int"
+    
+    let sumInts candidates =
+        candidates
+        |> map' parseInt
+        |> Res.sequence
+        |> Rop.rmap (fun xs -> xs |> List.sum)

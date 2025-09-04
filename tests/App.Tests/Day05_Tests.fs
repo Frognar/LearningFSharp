@@ -65,3 +65,13 @@ let ``parseInt fails on non-integers`` raw =
     match parseInt raw with
     | Error "Not an int" -> Assert.True(true)
     | _ -> failwith "Expected Error \"Not an int\""
+
+[<Fact>]
+let ``sumInts sums list when all parse`` () =
+    let r = sumInts [ "1"; "2"; "3" ]
+    Assert.Equal(Ok 6, r)
+
+[<Fact>]
+let ``sumInts stops on first invalid token`` () =
+    let r = sumInts [ "1"; "x"; "3" ]
+    Assert.Equal(Error "Not an int", r)
