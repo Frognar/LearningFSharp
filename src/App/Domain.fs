@@ -218,8 +218,15 @@ module Domain =
         let apply f a = map2 id f a
         
         let sequence xs =
+            let folder acc x =
+                match acc, x with
+                | Ok acc', Ok x' -> Ok (x' :: acc')
+                | Error e, _ -> Error e
+                | _, Error e -> Error e
+
             (Ok [], xs)
-            ||> List.fold (map2 (fun s v -> s@[v]))
+            ||> List.fold folder
+            |> Rop.rmap List.rev
         
         let traverse f xs =
             xs |> map' f |> sequence
