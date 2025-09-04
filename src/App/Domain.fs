@@ -210,12 +210,11 @@ module Domain =
     
     module Res =
         let map2 f a b =
-            match a with
-            | Ok x -> match b with
-                      | Ok y -> Ok (f x y)
-                      | Error y -> Error y
-            | Error x -> Error x
-        
+            match a, b with
+            | Ok x, Ok y -> Ok (f x y)
+            | Error x, _ -> Error x
+            | _, Error y -> Error y
+
         let apply f a =
             match f with
             | Ok f -> match a with
