@@ -216,11 +216,10 @@ module Domain =
             | _, Error y -> Error y
 
         let apply f a =
-            match f with
-            | Ok f -> match a with
-                      | Ok x -> Ok (f x)
-                      | Error x -> Error x
-            | Error f -> Error f
+            match f, a with
+            | Ok f, Ok x -> Ok (f x)
+            | Error f, _ -> Error f
+            | _, Error x -> Error x
         
         let sequence xs =
             (Ok [], xs)
