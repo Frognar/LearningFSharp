@@ -40,3 +40,11 @@ let ``sequence turns list of Ok into Ok list`` () =
 let ``sequence stops at first Error`` () =
     let r = Res.sequence [ Ok 1; Error "boom"; Ok 3 ]
     Assert.Equal(Error "boom", r)
+
+[<Fact>]
+let ``traverse applies function and sequences results`` () =
+    let f x = if x > 0 then Ok (x * 2) else Error "neg"
+    let rGood = Res.traverse f [1;2;3]
+    let rBad  = Res.traverse f [1;-1;3]
+    Assert.Equal(Ok [2;4;6], rGood)
+    Assert.Equal(Error "neg", rBad)

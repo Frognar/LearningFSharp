@@ -226,3 +226,6 @@ module Domain =
         let sequence xs =
             (Ok [], xs)
             ||> List.fold (map2 (fun s v -> s@[v]))
+        
+        let traverse f xs =
+            xs |> map' f |> sequence
