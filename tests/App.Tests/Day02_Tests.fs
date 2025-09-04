@@ -1,4 +1,4 @@
-module Day02_Tests
+module App.Tests.Day02_Tests
 
 open Xunit
 open App.Domain
