@@ -207,3 +207,11 @@ module Domain =
             let! br = b'
             return (ar, br)
         }
+    
+    module Res =
+        let map2 f a b =
+            match a with
+            | Ok x -> match b with
+                      | Ok y -> Ok (f x y)
+                      | Error y -> Error y
+            | Error y -> Error y
