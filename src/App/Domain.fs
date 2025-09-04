@@ -231,6 +231,5 @@ module Domain =
     
     let sumInts candidates =
         candidates
-        |> map' parseInt
-        |> Res.sequence
-        |> Rop.rmap (fun xs -> xs |> List.sum)
+        |> Res.traverse parseInt
+        |> Rop.rmap List.sum
