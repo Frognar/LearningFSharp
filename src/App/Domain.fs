@@ -214,4 +214,11 @@ module Domain =
             | Ok x -> match b with
                       | Ok y -> Ok (f x y)
                       | Error y -> Error y
-            | Error y -> Error y
+            | Error x -> Error x
+        
+        let apply f a =
+            match f with
+            | Ok f -> match a with
+                      | Ok x -> Ok (f x)
+                      | Error x -> Error x
+            | Error f -> Error f
