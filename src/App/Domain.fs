@@ -222,3 +222,7 @@ module Domain =
                       | Ok x -> Ok (f x)
                       | Error x -> Error x
             | Error f -> Error f
+        
+        let sequence xs =
+            (Ok [], xs)
+            ||> List.fold (map2 (fun s v -> s@[v]))

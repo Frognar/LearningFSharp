@@ -30,3 +30,13 @@ let ``apply propagates Error from either side`` () =
     let fOk  = Ok (fun x -> x + 1)
     Assert.Equal(Error "no fun", Res.apply fBad (Ok 1))
     Assert.Equal(Error "no val", Res.apply fOk vBad)
+
+[<Fact>]
+let ``sequence turns list of Ok into Ok list`` () =
+    let r = Res.sequence [ Ok 1; Ok 2; Ok 3 ]
+    Assert.Equal(Ok [1;2;3], r)
+
+[<Fact>]
+let ``sequence stops at first Error`` () =
+    let r = Res.sequence [ Ok 1; Error "boom"; Ok 3 ]
+    Assert.Equal(Error "boom", r)
