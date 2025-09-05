@@ -86,3 +86,20 @@ let ``Order.total sums lines`` () =
       | Ok o -> o
       | Error e -> failwith e
     Assert.Equal(31.50m, Order.total order)
+
+[<Fact>]
+let ``build lines from raw triples (pid,qty,price) using traverse`` () =
+    let raws : (int*int*decimal) list = [ (1,2,10m); (2,3,2.5m); (3,1,0m) ]
+    let build (pid, qty, pr) =
+        match ProductId.create pid, Quantity.create qty, Price.create pr with
+        | Ok p, Ok q, Ok prc -> Ok (Line.create p q prc)
+        | Error e, _, _ -> Error e
+        | _, Error e, _ -> Error e
+        | _, _, Error e -> Error e
+
+    let linesRes = Res.traverse build raws
+    match linesRes with
+    | Ok lines ->
+        let total = lines |> List.map Line.total |> List.sum
+        Assert.Equal( (2m*10m) + (3m*2.5m) + (1m*0m), total )
+    | Error e -> failwithf "unexpected: %s" e
