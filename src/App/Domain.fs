@@ -245,13 +245,13 @@ module Domain =
     module ProductId =
         let create id =
             if id > 0 then Ok (ProductId id)
-            else Error ""
+            else Error "ProductId must be > 0"
     
     type Quantity = private Quantity of int
     module Quantity =
         let create quantity=
             if quantity > 0 && quantity < 101 then Ok (Quantity quantity)
-            else Error ""
+            else Error "Quantity must be between 1 and 100"
 
         let value (Quantity q) = q
     
@@ -259,7 +259,7 @@ module Domain =
     module Price =
         let create price=
             if price >= 0m then Ok (Price price)
-            else Error ""
+            else Error "Price must be >= 0.0"
 
         let value (Price p) = p
 
@@ -275,7 +275,7 @@ module Domain =
     module Order =
         let create items =
             match items with
-            | [] -> Error ""
+            | [] -> Error "Order must have at least one line"
             | i -> Ok { Lines = i }
 
         let total order =
