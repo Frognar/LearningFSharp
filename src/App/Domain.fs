@@ -240,3 +240,8 @@ module Domain =
         candidates
         |> Res.traverse parseInt
         |> Rop.rmap List.sum
+        
+    module ProductId =
+        let create id =
+            if id > 0 then Ok id
+            else Error ""
