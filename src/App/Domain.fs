@@ -266,3 +266,10 @@ module Domain =
     type Line = { ProductId: ProductId; Quantity: Quantity; UnitPrice: Price }
     module Line =
         let total (v: Line) = (decimal (Quantity.value v.Quantity)) * (Price.value v.UnitPrice)
+
+    type Order = private { Lines: Line list }
+    module Order =
+        let create items =
+            match items with
+            | [] -> Error ""
+            | i -> Ok { Lines = i }
