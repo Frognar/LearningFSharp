@@ -18,3 +18,19 @@ let ``ProductId.create rejects non-positives`` (i) =
     match ProductId.create i with
     | Error _ -> Assert.True(true)
     | Ok _ -> failwith "expected Error"
+
+[<Theory>]
+[<InlineData(1)>]
+[<InlineData(100)>]
+let ``Quantity.create accepts in 1..100`` (q) =
+    match Quantity.create q with
+    | Ok _ -> Assert.True(true)
+    | Error e -> failwithf "unexpected: %s" e
+
+[<Theory>]
+[<InlineData(0)>]
+[<InlineData(101)>]
+let ``Quantity.create rejects out of range`` (q) =
+    match Quantity.create q with
+    | Error _ -> Assert.True(true)
+    | Ok _ -> failwith "expected Error"

@@ -245,3 +245,8 @@ module Domain =
         let create id =
             if id > 0 then Ok id
             else Error ""
+    
+    module Quantity =
+        let create quantity=
+            if quantity > 0 && quantity < 101 then Ok quantity
+            else Error ""
