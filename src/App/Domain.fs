@@ -250,3 +250,8 @@ module Domain =
         let create quantity=
             if quantity > 0 && quantity < 101 then Ok quantity
             else Error ""
+    
+    module Price =
+        let create price=
+            if price >= 0m then Ok price
+            else Error ""

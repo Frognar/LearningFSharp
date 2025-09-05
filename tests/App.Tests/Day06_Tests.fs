@@ -34,3 +34,18 @@ let ``Quantity.create rejects out of range`` (q) =
     match Quantity.create q with
     | Error _ -> Assert.True(true)
     | Ok _ -> failwith "expected Error"
+
+[<Theory>]
+[<InlineData(0.0)>]
+[<InlineData(19.99)>]
+let ``Price.create accepts >= 0`` (p: decimal) =
+    match Price.create p with
+    | Ok _ -> Assert.True(true)
+    | Error e -> failwithf "unexpected: %s" e
+
+[<Theory>]
+[<InlineData(-0.01)>]
+let ``Price.create rejects negative`` (p: decimal) =
+    match Price.create p with
+    | Error _ -> Assert.True(true)
+    | Ok _ -> failwith "expected Error"
