@@ -263,9 +263,13 @@ module Domain =
 
         let value (Price p) = p
 
-    type Line = { ProductId: ProductId; Quantity: Quantity; UnitPrice: Price }
+    type Line = private { ProductId: ProductId; Quantity: Quantity; UnitPrice: Price }
     module Line =
-        let total (v: Line) = (decimal (Quantity.value v.Quantity)) * (Price.value v.UnitPrice)
+        let create id quantity price =
+            { ProductId = id; Quantity = quantity; UnitPrice = price }
+
+        let total (v: Line) =
+            (decimal (Quantity.value v.Quantity)) * (Price.value v.UnitPrice)
 
     type Order = private { Lines: Line list }
     module Order =

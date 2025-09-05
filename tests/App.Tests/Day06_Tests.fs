@@ -64,7 +64,7 @@ let mkPrice p =
 
 [<Fact>]
 let ``Line.total = qty * unit price`` () =
-    let l = { ProductId = mkPid 7; Quantity = mkQty 3; UnitPrice = mkPrice 12.50m }
+    let l = Line.create (mkPid 7) (mkQty 3) (mkPrice 12.50m)
     Assert.Equal(37.50m, Line.total l)
 
 [<Fact>]
