@@ -277,3 +277,6 @@ module Domain =
             match items with
             | [] -> Error ""
             | i -> Ok { Lines = i }
+
+        let total order =
+            order.Lines |> List.sumBy Line.total

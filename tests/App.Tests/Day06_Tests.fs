@@ -72,3 +72,17 @@ let ``Order.create rejects empty lines`` () =
     match Order.create [] with
     | Error _ -> Assert.True(true)
     | Ok _ -> failwith "expected Error for empty order"
+
+[<Fact>]
+let ``Order.total sums lines`` () =
+    let lines =
+      [
+        Line.create (mkPid 1) (mkQty 2) (mkPrice 10.00m)
+        Line.create (mkPid 2) (mkQty 1) (mkPrice 5.50m)
+        Line.create (mkPid 3) (mkQty 3) (mkPrice 2.00m)
+      ]
+    let order =
+      match Order.create lines with
+      | Ok o -> o
+      | Error e -> failwith e
+    Assert.Equal(31.50m, Order.total order)
