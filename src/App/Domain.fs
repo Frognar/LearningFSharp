@@ -246,6 +246,8 @@ module Domain =
         let create id =
             if id > 0 then Ok (ProductId id)
             else Error "ProductId must be > 0"
+
+        let value (ProductId i) = i
     
     type Quantity = private Quantity of int
     module Quantity =
