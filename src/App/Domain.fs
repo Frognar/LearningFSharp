@@ -241,17 +241,28 @@ module Domain =
         |> Res.traverse parseInt
         |> Rop.rmap List.sum
         
+    type ProductId = private ProductId of int
     module ProductId =
         let create id =
-            if id > 0 then Ok id
+            if id > 0 then Ok (ProductId id)
             else Error ""
     
+    type Quantity = private Quantity of int
     module Quantity =
         let create quantity=
-            if quantity > 0 && quantity < 101 then Ok quantity
+            if quantity > 0 && quantity < 101 then Ok (Quantity quantity)
             else Error ""
+
+        let value (Quantity q) = q
     
+    type Price = private Price of decimal
     module Price =
         let create price=
-            if price >= 0m then Ok price
+            if price >= 0m then Ok (Price price)
             else Error ""
+
+        let value (Price p) = p
+
+    type Line = { ProductId: ProductId; Quantity: Quantity; UnitPrice: Price }
+    module Line =
+        let total (v: Line) = (decimal (Quantity.value v.Quantity)) * (Price.value v.UnitPrice)
