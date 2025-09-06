@@ -288,11 +288,15 @@ module Domain =
     let orderDto order =
         {| lines = order.Lines.Length; total = Order.total order |}
 
-    let orderToJson order =
-        order |> orderDto |> JsonSerializer.Serialize
-
     module Web =
         type Response = { Status: int; Body: string }
+        let private jsonOptions =
+            let o = JsonSerializerOptions()
+            o.PropertyNamingPolicy <- JsonNamingPolicy.CamelCase
+            o
+    
+        let json x = JsonSerializer.Serialize(x, jsonOptions)
+
         let ok json =
             { Status = 200; Body = json }
 
@@ -306,6 +310,9 @@ module Domain =
             match orderRes with
             | Ok order -> ok (order |> toJson)
             | Error error -> badRequest error
+
+    let orderToJson order =
+        order |> orderDto |> Web.json
 
     let createOrderEndpoint createOrder =
         fun lines ->
