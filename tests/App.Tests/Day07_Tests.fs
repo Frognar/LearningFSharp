@@ -31,3 +31,19 @@ let ``orderDto exposes lines count and total`` () =
     let dto = orderDto order
     Assert.Equal(3, dto.lines)
     Assert.Equal(31.50m, dto.total)
+
+[<Fact>]
+let ``orderToJson uses camelCase and contains fields`` () =
+    let lines =
+      [
+        Line.create (mkPid 1) (mkQty 2) (mkPrice 10.00m)
+        Line.create (mkPid 2) (mkQty 1) (mkPrice 5.50m)
+      ]
+    let order =
+      match Order.create lines with
+      | Ok o -> o
+      | Error e -> failwith e
+
+    let json = orderToJson order
+    Assert.Contains("\"lines\":2", json)
+    Assert.Contains("\"total\":25.5", json)

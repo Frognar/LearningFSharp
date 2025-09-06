@@ -1,6 +1,7 @@
 ﻿namespace App
 
 open System
+open System.Text.Json
 open System.Text.RegularExpressions
 
 module Domain =
@@ -283,4 +284,8 @@ module Domain =
         let total order =
             order.Lines |> List.sumBy Line.total
     
-    let orderDto order = {| lines = order.Lines.Length; total = Order.total order |}
+    let orderDto order =
+        {| lines = order.Lines.Length; total = Order.total order |}
+
+    let orderToJson order =
+        order |> orderDto |> JsonSerializer.Serialize
