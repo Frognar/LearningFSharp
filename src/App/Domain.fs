@@ -306,3 +306,10 @@ module Domain =
             match orderRes with
             | Ok order -> ok (order |> toJson)
             | Error error -> badRequest error
+
+    let createOrderEndpoint createOrder =
+        fun lines ->
+            match createOrder lines with
+            | Ok order -> Web.created (order |> orderToJson)
+            | Error error -> Web.badRequest error
+        

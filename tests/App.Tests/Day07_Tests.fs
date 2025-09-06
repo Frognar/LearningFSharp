@@ -85,3 +85,20 @@ let ``handleResult Error -> 400 + error message`` () =
     let res = Web.handleResult (Error "Order must have at least one line") orderToJson
     Assert.Equal(400, res.Status)
     Assert.Contains("at least one line", res.Body)
+
+
+[<Fact>]
+let ``createOrderEndpoint returns 201 on success`` () =
+    let lines =
+      [ Line.create (mkPid 1) (mkQty 2) (mkPrice 10.00m) ]
+    let endpoint = createOrderEndpoint Order.create
+    let res = endpoint lines
+    Assert.Equal(201, res.Status)
+    Assert.Contains("\"total\":20", res.Body)
+
+[<Fact>]
+let ``createOrderEndpoint returns 400 on domain error`` () =
+    let endpoint = createOrderEndpoint Order.create
+    let res = endpoint []
+    Assert.Equal(400, res.Status)
+    Assert.Contains("line", res.Body)
