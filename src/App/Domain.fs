@@ -296,8 +296,8 @@ module Domain =
         let ok json =
             { Status = 200; Body = json }
 
-        let badRequest json =
-            { Status = 400; Body = json }
+        let badRequest msg =
+            { Status = 400; Body = msg }
 
         let created json =
             { Status = 201; Body = json }
