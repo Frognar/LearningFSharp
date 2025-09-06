@@ -301,3 +301,8 @@ module Domain =
 
         let created json =
             { Status = 201; Body = json }
+
+        let handleResult orderRes toJson =
+            match orderRes with
+            | Ok order -> ok (order |> toJson)
+            | Error error -> badRequest error

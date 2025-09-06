@@ -65,3 +65,23 @@ let ``created returns 201 with body`` () =
     let r = Web.created """{"id":123}"""
     Assert.Equal(201, r.Status)
     Assert.Contains("\"id\":123", r.Body)
+
+[<Fact>]
+let ``handleResult Ok -> 200 + json body`` () =
+    let lines =
+      [ Line.create (mkPid 1) (mkQty 1) (mkPrice 10.00m) ]
+    let order =
+      match Order.create lines with
+      | Ok o -> o
+      | Error e -> failwith e
+
+    let res = Web.handleResult (Ok order) orderToJson
+    Assert.Equal(200, res.Status)
+    Assert.Contains("\"lines\":1", res.Body)
+    Assert.Contains("\"total\":10", res.Body)
+
+[<Fact>]
+let ``handleResult Error -> 400 + error message`` () =
+    let res = Web.handleResult (Error "Order must have at least one line") orderToJson
+    Assert.Equal(400, res.Status)
+    Assert.Contains("at least one line", res.Body)
