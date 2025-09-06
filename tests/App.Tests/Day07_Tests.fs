@@ -47,3 +47,21 @@ let ``orderToJson uses camelCase and contains fields`` () =
     let json = orderToJson order
     Assert.Contains("\"lines\":2", json)
     Assert.Contains("\"total\":25.5", json)
+
+[<Fact>]
+let ``ok returns 200 with body`` () =
+    let r = Web.ok """{"msg":"ok"}"""
+    Assert.Equal(200, r.Status)
+    Assert.Contains("\"ok\"", r.Body)
+
+[<Fact>]
+let ``badRequest returns 400 with error string`` () =
+    let r = Web.badRequest "Invalid order"
+    Assert.Equal(400, r.Status)
+    Assert.Contains("Invalid order", r.Body)
+
+[<Fact>]
+let ``created returns 201 with body`` () =
+    let r = Web.created """{"id":123}"""
+    Assert.Equal(201, r.Status)
+    Assert.Contains("\"id\":123", r.Body)

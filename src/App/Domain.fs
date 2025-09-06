@@ -1,6 +1,7 @@
 ﻿namespace App
 
 open System
+open System.Net
 open System.Text.Json
 open System.Text.RegularExpressions
 
@@ -289,3 +290,14 @@ module Domain =
 
     let orderToJson order =
         order |> orderDto |> JsonSerializer.Serialize
+
+    module Web =
+        type Response = { Status: int; Body: string }
+        let ok json =
+            { Status = 200; Body = json }
+
+        let badRequest json =
+            { Status = 400; Body = json }
+
+        let created json =
+            { Status = 201; Body = json }
