@@ -319,4 +319,12 @@ module Domain =
             match createOrder lines with
             | Ok order -> Web.created (order |> orderToJson)
             | Error error -> Web.badRequest error
+    
+    type OrderRepo = private { items: Map<int, Order> }
+    module OrderRepo =
+        let empty () =
+            { items = Map.empty }
         
+        let list repo =
+            List.empty
+            
