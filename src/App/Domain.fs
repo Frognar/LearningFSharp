@@ -327,18 +327,19 @@ module Domain =
 
         let value (OrderId i) = i
 
-    type OrderRepo = private { items: Map<int, Order> }
+    type OrderRepo = private { nextId: int; items: Map<OrderId, Order> }
     module OrderRepo =
         let empty () =
-            { items = Map.empty }
+            { nextId = 1; items = Map.empty }
         
         let list repo =
-            repo.items
+            repo.items |> Map.toList
         
         let add order repo =
-            let idRes = OrderId.create 1
-            let items = repo.items |> Map.add (OrderId.value idRes) order
-            ({ items = items }, idRes)
+            let idRes = OrderId.create repo.nextId
+            let items = repo.items |> Map.add idRes order
+            let nextId = repo.nextId + 1
+            ({ nextId = nextId; items = items }, idRes)
 
         let tryGet id repo =
-            Map.tryFind (OrderId.value id) repo.items
+            Map.tryFind id repo.items
