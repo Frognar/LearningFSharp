@@ -320,11 +320,25 @@ module Domain =
             | Ok order -> Web.created (order |> orderToJson)
             | Error error -> Web.badRequest error
     
+    type OrderId = private OrderId of int
+    module OrderId =
+        let create id =
+            OrderId id
+
+        let value (OrderId i) = i
+
     type OrderRepo = private { items: Map<int, Order> }
     module OrderRepo =
         let empty () =
             { items = Map.empty }
         
         let list repo =
-            List.empty
-            
+            repo.items
+        
+        let add order repo =
+            let idRes = OrderId.create 1
+            let items = repo.items |> Map.add (OrderId.value idRes) order
+            ({ items = items }, idRes)
+
+        let tryGet id repo =
+            Map.tryFind (OrderId.value id) repo.items
