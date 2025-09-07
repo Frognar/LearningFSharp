@@ -58,3 +58,10 @@ let ``add twice increments id and list is sorted by id`` () =
     Assert.Equal(2, listed.Length)
     Assert.Equal(1, listed |> List.item 0 |> fst |> OrderId.value)
     Assert.Equal(2, listed |> List.item 1 |> fst |> OrderId.value)
+
+[<Fact>]
+let ``tryGet returns None for missing id`` () =
+    let repo = OrderRepo.empty()
+    let id = OrderId.create 1
+    let found = OrderRepo.tryGet id repo
+    Assert.True(found.IsNone)
