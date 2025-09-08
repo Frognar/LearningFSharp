@@ -20,3 +20,9 @@ let ``fromError maps Conflict to 409`` () =
     let r = Web.fromError (Conflict "Duplicate")
     Assert.Equal(409, r.Status)
     Assert.Contains("Duplicate", r.Body)
+
+[<Fact>]
+let ``fromError maps Unauthorized to 401`` () =
+    let r = Web.fromError (Unauthorized "No token")
+    Assert.Equal(401, r.Status)
+    Assert.Contains("No token", r.Body)

@@ -292,6 +292,7 @@ module Domain =
         | Validation of string
         | NotFound of string
         | Conflict of string
+        | Unauthorized of string
 
     module Web =
         type Response = { Status: int; Body: string }
@@ -307,6 +308,9 @@ module Domain =
 
         let badRequest msg =
             { Status = 400; Body = msg }
+            
+        let unauthorized msg =
+            { Status = 401; Body = msg }
             
         let notFound msg =
             { Status = 404; Body = msg }
@@ -327,6 +331,7 @@ module Domain =
             | Validation v -> badRequest v
             | NotFound nf -> notFound nf
             | Conflict c -> conflict c
+            | Unauthorized u -> unauthorized u
 
     let orderToJson order =
         order |> orderDto |> Web.json
