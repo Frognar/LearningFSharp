@@ -51,3 +51,17 @@ let ``handleResultE Error -> mapped status + message`` () =
     let res = handleResultE (Error (NotFound "Order not found")) orderToJson
     Assert.Equal(404, res.Status)
     Assert.Contains("Order not found", res.Body)
+
+[<Fact>]
+let ``createOrderEndpointE returns 201 on success`` () =
+    let createOk lines = lines |> Order.create |> Result.mapError Validation
+    let res = createOrderEndpointE createOk [ Line.create (mkPid 1) (mkQty 2) (mkPrice 10.00m) ]
+    Assert.Equal(201, res.Status)
+    Assert.Contains("\"total\":20", res.Body)
+
+[<Fact>]
+let ``createOrderEndpointE returns 400 on validation error`` () =
+    let createBad _ = Error (Validation "Order must have at least one line")
+    let res = createOrderEndpointE createBad []
+    Assert.Equal(400, res.Status)
+    Assert.Contains("at least one line", res.Body)

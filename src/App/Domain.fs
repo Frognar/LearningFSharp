@@ -346,6 +346,12 @@ module Domain =
             match createOrder lines with
             | Ok order -> Web.created (order |> orderToJson)
             | Error error -> Web.badRequest error
+
+    let createOrderEndpointE createOrder =
+        fun lines ->
+            match createOrder lines with
+            | Ok order -> Web.created (order |> orderToJson)
+            | Error error -> Web.fromError error
     
     type OrderId = private OrderId of int
     module OrderId =
