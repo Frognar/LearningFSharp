@@ -288,6 +288,9 @@ module Domain =
     let orderDto order =
         {| lines = order.Lines.Length; total = Order.total order |}
 
+    type DomainError =
+        | Validation of string
+
     module Web =
         type Response = { Status: int; Body: string }
         let private jsonOptions =
@@ -310,6 +313,10 @@ module Domain =
             match orderRes with
             | Ok order -> ok (order |> toJson)
             | Error error -> badRequest error
+        
+        let fromError error =
+            match error with
+            | Validation v -> badRequest v
 
     let orderToJson order =
         order |> orderDto |> Web.json
