@@ -333,6 +333,11 @@ module Domain =
             | Conflict c -> conflict c
             | Unauthorized u -> unauthorized u
 
+    let handleResultE orderRes toJson =
+        match orderRes with
+        | Ok order -> Web.ok (order |> toJson)
+        | Error error -> Web.fromError error
+
     let orderToJson order =
         order |> orderDto |> Web.json
 
