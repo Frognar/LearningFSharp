@@ -290,6 +290,7 @@ module Domain =
 
     type DomainError =
         | Validation of string
+        | NotFound of string
 
     module Web =
         type Response = { Status: int; Body: string }
@@ -305,6 +306,9 @@ module Domain =
 
         let badRequest msg =
             { Status = 400; Body = msg }
+            
+        let notFound msg =
+            { Status = 404; Body = msg }
 
         let created json =
             { Status = 201; Body = json }
@@ -317,6 +321,7 @@ module Domain =
         let fromError error =
             match error with
             | Validation v -> badRequest v
+            | NotFound nf -> notFound nf
 
     let orderToJson order =
         order |> orderDto |> Web.json
