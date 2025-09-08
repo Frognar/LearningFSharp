@@ -14,3 +14,9 @@ let ``fromError maps NotFound to 404`` () =
     let r = Web.fromError (NotFound "Order 123")
     Assert.Equal(404, r.Status)
     Assert.Contains("Order 123", r.Body)
+
+[<Fact>]
+let ``fromError maps Conflict to 409`` () =
+    let r = Web.fromError (Conflict "Duplicate")
+    Assert.Equal(409, r.Status)
+    Assert.Contains("Duplicate", r.Body)
