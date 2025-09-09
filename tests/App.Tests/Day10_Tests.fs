@@ -53,3 +53,15 @@ let ``add twice increments id and list is sorted by id`` () =
     Assert.Equal(2, listed.Length)
     Assert.Equal(1, listed.[0] |> fst |> OrderId.value)
     Assert.Equal(2, listed.[1] |> fst |> OrderId.value)
+
+[<Fact>]
+let ``tryGet returns Some after add and None for unknown id`` () =
+    let store = OrderStore.inMemory()
+    let s0 = store.empty()
+    let s1, idA = store.add (mkOrder [ l1 ]) s0
+
+    match store.tryGet idA s1 with
+    | Some o -> Assert.Equal(20.00m, Order.total o)
+    | None -> failwith "expected Some"
+
+    Assert.True(store.tryGet (OrderId.create 2) s1 |> Option.isNone)
