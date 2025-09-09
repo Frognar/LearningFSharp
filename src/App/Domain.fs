@@ -376,3 +376,13 @@ module Domain =
 
         let tryGet id repo =
             Map.tryFind id repo.items
+
+    type OrderStore<'S> = {
+        empty : unit -> 'S
+        list : 'S -> (OrderId * Order) list
+    }
+
+    module OrderStore =
+        let inMemory () =
+            { empty = OrderRepo.empty
+              list = OrderRepo.list }
