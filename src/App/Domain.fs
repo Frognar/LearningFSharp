@@ -1,7 +1,6 @@
 ﻿namespace App
 
 open System
-open System.Net
 open System.Text.Json
 open System.Text.RegularExpressions
 
