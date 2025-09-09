@@ -379,10 +379,12 @@ module Domain =
 
     type OrderStore<'S> = {
         empty : unit -> 'S
+        add: Order -> 'S -> 'S * OrderId
         list : 'S -> (OrderId * Order) list
     }
 
     module OrderStore =
         let inMemory () =
             { empty = OrderRepo.empty
+              add = OrderRepo.add
               list = OrderRepo.list }
