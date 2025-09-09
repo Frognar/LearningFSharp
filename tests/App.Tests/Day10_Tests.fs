@@ -65,3 +65,18 @@ let ``tryGet returns Some after add and None for unknown id`` () =
     | None -> failwith "expected Some"
 
     Assert.True(store.tryGet (OrderId.create 2) s1 |> Option.isNone)
+
+[<Fact>]
+let ``delete removes existing id and returns false for missing`` () =
+    let store = OrderStore.inMemory()
+    let s0 = store.empty()
+    let s1, idA = store.add (mkOrder [ l1 ]) s0
+    let s2, deleted = store.delete idA s1
+
+    Assert.True(deleted)
+    Assert.True(store.tryGet idA s2 |> Option.isNone)
+    Assert.Empty(store.list s2)
+
+    let s3, deleted2 = store.delete idA s2
+    Assert.False(deleted2)
+    Assert.Same(box s2, box s3) |> ignore

@@ -377,10 +377,16 @@ module Domain =
         let tryGet id repo =
             Map.tryFind id repo.items
 
+        let delete id repo =
+            let existed = Map.containsKey id repo.items
+            if existed then { repo with items = (Map.remove id repo.items) }, existed
+            else repo, false
+
     type OrderStore<'S> = {
         empty : unit -> 'S
         add: Order -> 'S -> 'S * OrderId
         tryGet: OrderId -> 'S -> Order option
+        delete: OrderId -> 'S -> 'S * bool
         list : 'S -> (OrderId * Order) list
     }
 
@@ -389,4 +395,5 @@ module Domain =
             { empty = OrderRepo.empty
               add = OrderRepo.add
               tryGet = OrderRepo.tryGet
+              delete = OrderRepo.delete
               list = OrderRepo.list }
