@@ -28,3 +28,16 @@ let ``createOrder returns 201 Created with id and updates state`` () =
     Assert.Single(listed)
     Assert.Equal(1, listed.[0] |> fst |> OrderId.value)
     Assert.Equal(20.00m, listed.[0] |> snd |> Order.total)
+
+[<Fact>]
+let ``createOrder returns 400 BadRequest and leaves state unchanged on invalid lines`` () =
+    let store = OrderStore.inMemory()
+    let s0 = store.empty()
+
+    let res, s1 = AppService.createOrder store s0 []
+
+    Assert.Equal(400, res.Status)
+    Assert.Contains("line", res.Body, System.StringComparison.OrdinalIgnoreCase)
+
+    Assert.Same(box s0, box s1) |> ignore
+    Assert.Empty(store.list s1)
