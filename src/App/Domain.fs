@@ -396,3 +396,17 @@ module Domain =
               tryGet = OrderRepo.tryGet
               delete = OrderRepo.delete
               list = OrderRepo.list }
+    
+    let orderWithIdDto id order =
+        {| id = OrderId.value id; lines = order.Lines.Length; total = Order.total order |}
+
+    let rec orderWithIdToJson id order =
+        (orderWithIdDto id order) |> Web.json
+
+    module AppService =
+        let createOrder store state lineItems =
+            match Order.create lineItems with
+            | Ok order ->
+                let s', id = store.add order state
+                Web.created (orderWithIdToJson id order), s'
+            | Error e -> Web.badRequest e, state
