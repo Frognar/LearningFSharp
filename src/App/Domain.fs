@@ -403,6 +403,11 @@ module Domain =
     let orderWithIdToJson id order =
         (orderWithIdDto id order) |> Web.json
 
+    let ordersToJson (ordersWithId: (OrderId * Order) list)  =
+        ordersWithId
+        |> List.map (fun (id, ord) -> orderWithIdDto id ord)
+        |> Web.json
+        
     module AppService =
         let createOrder store state lineItems =
             match Order.create lineItems with
@@ -415,3 +420,7 @@ module Domain =
             match store.tryGet id state with
             | Some order -> Web.ok (orderWithIdToJson id order), state
             | None -> Web.notFound "not found", state
+        
+        let listOrders store state =
+            let items = store.list state |> List.sortBy (fst >> OrderId.value)
+            Web.ok (ordersToJson items), state

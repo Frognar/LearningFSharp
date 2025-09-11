@@ -46,3 +46,20 @@ let ``getOrder returns 404 when missing`` () =
     Assert.Equal(404, resNotFound.Status)
     Assert.Contains("not found", resNotFound.Body, System.StringComparison.OrdinalIgnoreCase)
     Assert.Same(box s0, box s1) |> ignore
+
+[<Fact>]
+let ``listOrders returns 200 with array JSON sorted by id`` () =
+    let store = OrderStore.inMemory()
+    let s0 = store.empty()
+
+    let _, s1 = AppService.createOrder store s0 [ l1 ]
+    let _, s2 = AppService.createOrder store s1 [ l2 ]
+
+    let resList, s3 = AppService.listOrders store s2
+    Assert.Equal(200, resList.Status)
+    Assert.Same(box s2, box s3) |> ignore
+
+    Assert.True(resList.Body.IndexOf("\"id\":1") < resList.Body.IndexOf("\"id\":2"))
+    Assert.Contains("\"lines\":1", resList.Body)
+    Assert.Contains("\"total\":20",  resList.Body)
+    Assert.Contains("\"total\":5.5", resList.Body)
