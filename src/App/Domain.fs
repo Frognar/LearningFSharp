@@ -410,3 +410,8 @@ module Domain =
                 let s', id = store.add order state
                 Web.created (orderWithIdToJson id order), s'
             | Error e -> Web.badRequest e, state
+        
+        let getOrder store state id =
+            match store.tryGet id state with
+            | Some order -> Web.ok (orderWithIdToJson id order), state
+            | None -> Web.notFound "not found", state
