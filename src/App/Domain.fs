@@ -400,7 +400,7 @@ module Domain =
     let orderWithIdDto id order =
         {| id = OrderId.value id; lines = order.Lines.Length; total = Order.total order |}
 
-    let rec orderWithIdToJson id order =
+    let orderWithIdToJson id order =
         (orderWithIdDto id order) |> Web.json
 
     module AppService =
