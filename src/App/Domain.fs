@@ -426,7 +426,29 @@ module Domain =
             Web.ok (ordersToJson items), state
     
     module Migrations =
+        open System.Threading.Tasks
+        open Npgsql
+        open Dapper
         let run cs =
-            async {
-                
+            task {
+                use conn = new NpgsqlConnection(cs)
+                do! conn.OpenAsync() |> Async.AwaitTask
+                let! _ = conn.ExecuteAsync(
+                             """
+                           CREATE TABLE orders (
+                               id BIGSERIAL PRIMARY KEY,
+                               created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+                           );
+                           """)
+                let! _ = conn.ExecuteAsync(
+                             """
+                             CREATE TABLE order_lines (
+                                 id BIGSERIAL PRIMARY KEY,
+                                 order_id BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+                                 product_id INT NOT NULL,
+                                 quantity INT NOT NULL CHECK (quantity BETWEEN 1 AND 100),
+                                 unit_price NUMERIC(18,2) NOT NULL CHECK (unit_price >= 0)
+                             );
+                             """)
+                return ()
             }
