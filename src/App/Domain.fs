@@ -424,3 +424,9 @@ module Domain =
         let listOrders store state =
             let items = store.list state |> List.sortBy (fst >> OrderId.value)
             Web.ok (ordersToJson items), state
+    
+    module Migrations =
+        let run cs =
+            async {
+                
+            }
