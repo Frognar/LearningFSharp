@@ -73,3 +73,73 @@ type DbTests(fx: PgFixture) =
 
         Assert.True((DateTime.UtcNow - createdAt.ToUniversalTime()) < TimeSpan.FromMinutes(5.0))
     }
+    
+    [<Fact>]
+    member this.``order_lines FK to orders and basic checks``() = task {
+        use conn = this.openConn()
+
+        let! orderId =
+            conn.ExecuteScalarAsync<int64>("INSERT INTO orders DEFAULT VALUES RETURNING id;")
+            |> Async.AwaitTask
+
+        let! lineId =
+            conn.ExecuteScalarAsync<int64>(
+                """
+                INSERT INTO order_lines(order_id, product_id, quantity, unit_price)
+                VALUES (@order_id, @product_id, @quantity, @unit_price)
+                RETURNING id;
+                """,
+                dict [
+                    "order_id", box orderId
+                    "product_id", box 42
+                    "quantity", box 3
+                    "unit_price", box 12.50m
+                ]
+            ) |> Async.AwaitTask
+
+        Assert.True(lineId >= 1L)
+
+        let! ex1 =
+            task {
+                try
+                    let! _ =
+                        conn.ExecuteScalarAsync<int64>(
+                            """
+                            INSERT INTO order_lines(order_id, product_id, quantity, unit_price)
+                            VALUES (@order_id, @product_id, @quantity, @unit_price)
+                            RETURNING id;
+                            """,
+                            dict [
+                                "order_id", box orderId
+                                "product_id", box 99
+                                "quantity", box 0   // niepoprawne
+                                "unit_price", box 1.0m
+                            ]
+                        )
+                    return Unchecked.defaultof<exn>
+                with e -> return e
+            }
+        Assert.NotNull(ex1)
+
+        let! ex2 =
+            task {
+                try
+                    let! _ =
+                        conn.ExecuteScalarAsync<int64>(
+                            """
+                            INSERT INTO order_lines(order_id, product_id, quantity, unit_price)
+                            VALUES (@order_id, @product_id, @quantity, @unit_price)
+                            RETURNING id;
+                            """,
+                            dict [
+                                "order_id", box 999999L
+                                "product_id", box 1
+                                "quantity", box 1
+                                "unit_price", box 1.0m
+                            ]
+                        )
+                    return Unchecked.defaultof<exn>
+                with e -> return e
+            }
+        Assert.NotNull(ex2)
+    }
