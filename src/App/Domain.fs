@@ -446,6 +446,8 @@ module Domain =
                                  quantity INT NOT NULL CHECK (quantity BETWEEN 1 AND 100),
                                  unit_price NUMERIC(18,2) NOT NULL CHECK (unit_price >= 0)
                              );
+
+                             CREATE INDEX IF NOT EXISTS ix_order_lines_order_id ON order_lines(order_id);
                              """)
                 return ()
             }
