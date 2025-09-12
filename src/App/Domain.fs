@@ -431,7 +431,7 @@ module Domain =
         let run cs =
             task {
                 use conn = new NpgsqlConnection(cs)
-                do! conn.OpenAsync() |> Async.AwaitTask
+                do! conn.OpenAsync()
                 let! _ = conn.ExecuteAsync(
                              """
                              CREATE TABLE orders (
