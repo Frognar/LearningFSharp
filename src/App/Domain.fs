@@ -432,6 +432,7 @@ module Domain =
             task {
                 use conn = new NpgsqlConnection(cs)
                 do! conn.OpenAsync()
+                use tx = conn.BeginTransaction()
                 let! _ = conn.ExecuteAsync(
                              """
                              CREATE TABLE orders (
@@ -448,6 +449,9 @@ module Domain =
                              );
 
                              CREATE INDEX IF NOT EXISTS ix_order_lines_order_id ON order_lines(order_id);
-                             """)
+                             """,
+                             transaction = tx)
+                
+                do! tx.CommitAsync()
                 return ()
             }
