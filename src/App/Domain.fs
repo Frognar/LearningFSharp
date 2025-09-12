@@ -426,6 +426,7 @@ module Domain =
             Web.ok (ordersToJson items), state
     
     module Migrations =
+        open System.Threading.Tasks
         open Npgsql
         open Dapper
         let run cs =
@@ -433,7 +434,7 @@ module Domain =
                 use conn = new NpgsqlConnection(cs)
                 do! conn.OpenAsync()
                 use tx = conn.BeginTransaction()
-                let! _ = conn.ExecuteAsync(
+                do! conn.ExecuteAsync(
                              """
                              CREATE TABLE orders (
                                  id BIGSERIAL PRIMARY KEY,
@@ -450,8 +451,7 @@ module Domain =
 
                              CREATE INDEX IF NOT EXISTS ix_order_lines_order_id ON order_lines(order_id);
                              """,
-                             transaction = tx)
+                             transaction = tx) :> Task
                 
                 do! tx.CommitAsync()
-                return ()
             }
