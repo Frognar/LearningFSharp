@@ -438,9 +438,7 @@ module Domain =
                                  id BIGSERIAL PRIMARY KEY,
                                  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
                              );
-                             """)
-                let! _ = conn.ExecuteAsync(
-                             """
+
                              CREATE TABLE order_lines (
                                  id BIGSERIAL PRIMARY KEY,
                                  order_id BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
