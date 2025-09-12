@@ -1,5 +1,6 @@
 module App.Tests.DayDB01_Tests
 
+open System
 open System.Data
 open System.Threading.Tasks
 open App.Domain
@@ -53,4 +54,22 @@ type DbTests(fx: PgFixture) =
                 """
             ) |> Async.AwaitTask
         Assert.Equal<string list>(["order_lines"; "orders"], tables |> Seq.toList |> List.sort)
+    }
+
+    [<Fact>]
+    member this.``orders.id is bigint PK and created_at has default``() = task {
+        use conn = this.openConn()
+        let! id =
+            conn.ExecuteScalarAsync<int64>(
+                "INSERT INTO orders DEFAULT VALUES RETURNING id;"
+            ) |> Async.AwaitTask
+
+        Assert.True(id >= 1L)
+
+        let! createdAt =
+            conn.ExecuteScalarAsync<DateTime>(
+                "SELECT created_at FROM orders WHERE id = @id;", dict [ "id", box id ]
+            ) |> Async.AwaitTask
+
+        Assert.True((DateTime.UtcNow - createdAt.ToUniversalTime()) < TimeSpan.FromMinutes(5.0))
     }
