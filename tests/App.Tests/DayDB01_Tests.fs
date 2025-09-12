@@ -143,3 +143,35 @@ type DbTests(fx: PgFixture) =
             }
         Assert.NotNull(ex2)
     }
+
+    [<Fact>]
+    member this.``ON DELETE CASCADE removes lines with order``() = task {
+        use conn = this.openConn()
+
+        let! orderId =
+            conn.ExecuteScalarAsync<int64>("INSERT INTO orders DEFAULT VALUES RETURNING id;")
+            |> Async.AwaitTask
+
+        do!
+            conn.ExecuteAsync(
+                """
+                INSERT INTO order_lines(order_id, product_id, quantity, unit_price)
+                VALUES
+                  (@order_id, 1, 1, 10.00),
+                  (@order_id, 2, 2,  5.50);
+                """,
+                dict [ "order_id", box orderId ]
+            ) |> Async.AwaitTask |> Async.Ignore
+
+        do!
+            conn.ExecuteAsync("DELETE FROM orders WHERE id=@id;", dict [ "id", box orderId ])
+            |> Async.AwaitTask |> Async.Ignore
+
+        let! cnt =
+            conn.ExecuteScalarAsync<int>(
+                "SELECT COUNT(*) FROM order_lines WHERE order_id = @id;",
+                dict [ "id", box orderId ]
+            ) |> Async.AwaitTask
+
+        Assert.Equal(0, cnt)
+    }
