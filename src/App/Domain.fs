@@ -426,7 +426,6 @@ module Domain =
             Web.ok (ordersToJson items), state
     
     module Migrations =
-        open System.Threading.Tasks
         open Npgsql
         open Dapper
         let run cs =
@@ -435,11 +434,11 @@ module Domain =
                 do! conn.OpenAsync() |> Async.AwaitTask
                 let! _ = conn.ExecuteAsync(
                              """
-                           CREATE TABLE orders (
-                               id BIGSERIAL PRIMARY KEY,
-                               created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
-                           );
-                           """)
+                             CREATE TABLE orders (
+                                 id BIGSERIAL PRIMARY KEY,
+                                 created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+                             );
+                             """)
                 let! _ = conn.ExecuteAsync(
                              """
                              CREATE TABLE order_lines (
