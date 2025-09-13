@@ -68,3 +68,14 @@ type DbTests(fx: PgFixture) =
             Assert.Equal(21.00m, sum.total)
         | None -> failwith "Expected Some summary"
     }
+
+    [<Fact>]
+    member _.``getOrderSummary returns None for missing id``() = task {
+        let! missing =
+            task {
+                let! _ = OrdersDb.insertOrder fx.ConnStr
+                return 99999L
+            }
+        let! s = OrdersDb.getOrderSummary fx.ConnStr missing
+        Assert.True(s.IsNone)
+    }
