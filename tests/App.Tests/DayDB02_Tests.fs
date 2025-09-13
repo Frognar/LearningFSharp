@@ -39,3 +39,17 @@ type DbTests(fx: PgFixture) =
         let c = new NpgsqlConnection(fx.ConnStr)
         c.Open()
         c :> IDbConnection
+
+    [<Fact>]
+    member _.``insertOrder returns new id, then summary with 0 lines and 0 total``() = task {
+        let! id = OrdersDb.insertOrder fx.ConnStr
+        Assert.True(id >= 1L)
+
+        let! s = OrdersDb.getOrderSummary fx.ConnStr id
+        match s with
+        | Some sum ->
+            Assert.Equal(id, sum.id)
+            Assert.Equal(0, sum.lines)
+            Assert.Equal(0m, sum.total)
+        | None -> failwith "Expected Some summary"
+    }

@@ -455,3 +455,17 @@ module Domain =
                 
                 do! tx.CommitAsync()
             }
+
+    module OrdersDb =
+        let insertOrder cs = task { return 1L }
+
+        type OrderSummary =
+            { id: int64
+              lines: int
+              total: decimal }
+
+        let getOrderSummary cs id =
+            task {
+                return Some { id = 1L; lines = 0; total = 0m }
+            }
+            
