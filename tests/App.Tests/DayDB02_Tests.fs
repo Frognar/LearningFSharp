@@ -53,3 +53,18 @@ type DbTests(fx: PgFixture) =
             Assert.Equal(0m, sum.total)
         | None -> failwith "Expected Some summary"
     }
+
+    [<Fact>]
+    member _.``order with two lines returns correct lines count and total``() = task {
+        let! orderId = OrdersDb.insertOrder fx.ConnStr
+
+        let! _ = OrdersDb.insertOrderLine fx.ConnStr orderId 42 1 10.00m
+        let! _ = OrdersDb.insertOrderLine fx.ConnStr orderId  7 2  5.50m
+
+        let! s = OrdersDb.getOrderSummary fx.ConnStr orderId
+        match s with
+        | Some sum ->
+            Assert.Equal(2,   sum.lines)
+            Assert.Equal(21.00m, sum.total)
+        | None -> failwith "Expected Some summary"
+    }

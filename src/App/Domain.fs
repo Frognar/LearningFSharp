@@ -1,6 +1,7 @@
 ﻿namespace App
 
 open System
+open System.Linq
 open System.Text.Json
 open System.Text.RegularExpressions
 
@@ -457,7 +458,20 @@ module Domain =
             }
 
     module OrdersDb =
-        let insertOrder cs = task { return 1L }
+        open Npgsql
+        open Dapper
+        let insertOrder cs =
+            task {
+                use conn = new NpgsqlConnection(cs)
+                do! conn.OpenAsync()
+                use tx = conn.BeginTransaction()
+                let! id = conn.ExecuteScalarAsync<int64>(
+                    "INSERT INTO orders DEFAULT VALUES RETURNING id;",
+                    transaction = tx)
+
+                do! tx.CommitAsync()
+                return id |> int64
+            }
 
         type OrderSummary =
             { id: int64
@@ -466,6 +480,39 @@ module Domain =
 
         let getOrderSummary cs id =
             task {
-                return Some { id = 1L; lines = 0; total = 0m }
+                use conn = new NpgsqlConnection(cs)
+                do! conn.OpenAsync()
+                let! res = conn.QuerySingleOrDefaultAsync<OrderSummary>(
+                    """
+                    SELECT o.id,
+                           COALESCE(COUNT(ol.id),0)::int AS lines,
+                           COALESCE(SUM(ol.quantity*ol.unit_price),0)::numeric(18,2) AS total
+                    FROM orders o
+                    LEFT JOIN order_lines ol ON ol.order_id = o.id
+                    WHERE o.id = @id
+                    GROUP BY o.id;
+                    """,
+                    {| id = id |})
+                
+                return
+                    if isNull (box res) then None
+                    else Some res
             }
-            
+        
+        let insertOrderLine cs orderId productId quantity unitPrice =
+            task {
+                use conn = new NpgsqlConnection(cs)
+                do! conn.OpenAsync()
+                use tx = conn.BeginTransaction()
+                let! id = conn.ExecuteAsync(
+                    """
+                    INSERT INTO order_lines(order_id,product_id,quantity,unit_price)
+                    VALUES (@order_id,@product_id,@quantity,@unit_price)
+                    RETURNING id;
+                    """,
+                    {| order_id = orderId; product_id = productId; quantity = quantity; unit_price = unitPrice |},
+                    transaction = tx)
+
+                do! tx.CommitAsync()
+                return id |> int64
+            }
